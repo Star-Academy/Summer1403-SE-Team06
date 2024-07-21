@@ -27,7 +27,7 @@ public class Program {
         Dictionary<int, Student> studentsMap = new();
         students.ForEach(student => studentsMap.Add(student.StudentNumber, student));
 
-        List<GpaInformation> topStudentsGpa = GetTopStudents(studentScores);
+        List<GpaInformation> topStudentsGpa = GetTopStudentsGpa(studentScores);
 
         foreach(GpaInformation topStudentGpa in topStudentsGpa)
         {
@@ -38,7 +38,7 @@ public class Program {
 
     private record GpaInformation(int StudentNumber, double Gpa);
     
-    private static List<GpaInformation> GetTopStudents(List<StudentScore> studentScores)
+    private static List<GpaInformation> GetTopStudentsGpa(List<StudentScore> studentScores)
     {
         var topStudents = studentScores.GroupBy(studentScore => studentScore.StudentNumber)
             .Select(group => new GpaInformation(
