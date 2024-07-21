@@ -8,21 +8,12 @@ public class Program {
     
     public static void Main()
     {
-        List<Student> students = new();
-        List<StudentScore> studentScores = new();
+        var students = new List<Student>();
+        var studentScores = new List<StudentScore>();
 
         try
         {
             students = JsonSerializer.Deserialize<List<Student>>(File.ReadAllText(StudentsFilePath));
-        }
-        catch (Exception exception)
-        {
-            Console.WriteLine(exception.Message);
-            return;
-        }
-        
-        try
-        {
             studentScores = JsonSerializer.Deserialize<List<StudentScore>>(File.ReadAllText(ScoresFilePath));
         }
         catch (Exception exception)
@@ -32,15 +23,16 @@ public class Program {
         }
 
 
+
         Dictionary<int, Student> studentsMap = new();
         students.ForEach(student => studentsMap.Add(student.StudentNumber, student));
 
-        List<GpaInformation> topStudents = GetTopStudents(studentScores);
+        List<GpaInformation> topStudentsGpa = GetTopStudents(studentScores);
 
-        foreach(GpaInformation topStudent in topStudents)
+        foreach(GpaInformation topStudentGpa in topStudentsGpa)
         {
-            Student studentInformation = studentsMap[topStudent.StudentNumber];
-            Console.WriteLine($"{studentInformation.FirstName} {studentInformation.LastName} : {topStudent.Gpa:F2}");
+            var student = studentsMap[topStudentGpa.StudentNumber];
+            Console.WriteLine($"{student.FirstName} {student.LastName} : {topStudentGpa.Gpa:F2}");
         }
     }
 
