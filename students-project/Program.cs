@@ -8,8 +8,30 @@ public class Program {
     
     public static void Main()
     {
-        var students = JsonSerializer.Deserialize<List<Student>>(File.ReadAllText(StudentsFilePath));
-        var studentScores = JsonSerializer.Deserialize<List<StudentScore>>(File.ReadAllText(ScoresFilePath));
+        List<Student> students = new();
+        List<StudentScore> studentScores = new();
+
+        try
+        {
+            students = JsonSerializer.Deserialize<List<Student>>(File.ReadAllText(StudentsFilePath));
+        }
+        catch (Exception exception)
+        {
+            Console.WriteLine(exception.Message);
+            return;
+        }
+        
+        
+        try
+        {
+            studentScores = JsonSerializer.Deserialize<List<StudentScore>>(File.ReadAllText(ScoresFilePath));
+        }
+        catch (Exception exception)
+        {
+            Console.WriteLine(exception.Message);
+            return;
+        }
+
 
         Dictionary<int, Student> studentsMap = new();
         students.ForEach(student => studentsMap.Add(student.StudentNumber, student));
@@ -39,13 +61,13 @@ public class Program {
 }
 
 public class Student {
-    public int StudentNumber {get;}
-    public string FirstName {get;}
-    public string LastName {get;}
+    public int StudentNumber {get; set; }
+    public string FirstName {get; set; }
+    public string LastName {get; set; }
 }
 
 public class StudentScore {
-    public int StudentNumber {get;}
-    public string Lesson {get;}
-    public double Score {get;}
+    public int StudentNumber {get; set; }
+    public string Lesson {get; set; }
+    public double Score {get; set; }
 }
