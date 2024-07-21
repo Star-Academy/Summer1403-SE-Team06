@@ -21,7 +21,6 @@ public class Program {
             return;
         }
         
-        
         try
         {
             studentScores = JsonSerializer.Deserialize<List<StudentScore>>(File.ReadAllText(ScoresFilePath));
@@ -45,6 +44,8 @@ public class Program {
         }
     }
 
+    private record GpaInformation(int StudentNumber, double Gpa);
+    
     private static List<GpaInformation> GetTopStudents(List<StudentScore> studentScores)
     {
         var topStudents = studentScores.GroupBy(studentScore => studentScore.StudentNumber)
@@ -56,18 +57,4 @@ public class Program {
             ToList();
         return topStudents;
     }
-
-    private record GpaInformation(int StudentNumber, double Gpa);
-}
-
-public class Student {
-    public int StudentNumber {get; set; }
-    public string FirstName {get; set; }
-    public string LastName {get; set; }
-}
-
-public class StudentScore {
-    public int StudentNumber {get; set; }
-    public string Lesson {get; set; }
-    public double Score {get; set; }
 }
