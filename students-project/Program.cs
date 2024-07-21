@@ -11,23 +11,22 @@ public class Program {
         var students = JsonSerializer.Deserialize<List<Student>>(File.ReadAllText(StudentsFilePath));
         var studentScores = JsonSerializer.Deserialize<List<StudentScore>>(File.ReadAllText(ScoresFilePath));
 
-        var studentsMap = new Dictionary<int, Student>();
+        Dictionary<int, Student> studentsMap = new();
         students.ForEach(student => studentsMap.Add(student.StudentNumber, student));
 
-        var topStudents = GetTopStudents(studentScores);
-        
-        for (var i = 0; i < topStudents.Count; i++)
+        List<GpaInformation> topStudents = GetTopStudents(studentScores);
+
+        foreach(GpaInformation topStudent in topStudents)
         {
-            var currentStudent = topStudents[i];
-            Student studentInfo = studentsMap[currentStudent.StudentNumber];
-            Console.WriteLine($"{i + 1}.{studentInfo.FirstName} {studentInfo.LastName} : {currentStudent.Gpa:F2}");
+            Student studentInformation = studentsMap[topStudent.StudentNumber];
+            Console.WriteLine($"{studentInformation.FirstName} {studentInformation.LastName} : {topStudent.Gpa:F2}");
         }
     }
 
-    private static List<GpaInfo> GetTopStudents(List<StudentScore> studentScores)
+    private static List<GpaInformation> GetTopStudents(List<StudentScore> studentScores)
     {
         var topStudents = studentScores.GroupBy(studentScore => studentScore.StudentNumber)
-            .Select(group => new GpaInfo(
+            .Select(group => new GpaInformation(
                 group.Key,
                 group.Average(studentScore => studentScore.Score)
             )).OrderByDescending(group => group.Gpa).
@@ -36,17 +35,17 @@ public class Program {
         return topStudents;
     }
 
-    private record GpaInfo(int StudentNumber, double Gpa);
+    private record GpaInformation(int StudentNumber, double Gpa);
 }
 
 public class Student {
-    public int StudentNumber {get; set;}
-    public string FirstName {get; set;}
-    public string LastName {get; set;}
+    public int StudentNumber {get;}
+    public string FirstName {get;}
+    public string LastName {get;}
 }
 
 public class StudentScore {
-    public int StudentNumber {get; set;}
-    public string Lesson {get; set;}
-    public double Score {get; set;}
+    public int StudentNumber {get;}
+    public string Lesson {get;}
+    public double Score {get;}
 }
