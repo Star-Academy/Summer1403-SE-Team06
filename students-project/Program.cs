@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 
+namespace Mohaymen.StudentProject;
 public class Program {
     private const int TopStudentsCount = 3;
     private const string StudentsFilePath = @"data\students.json";
