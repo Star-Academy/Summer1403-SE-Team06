@@ -1,11 +1,13 @@
 ﻿using System.Text.Json;
+using System.Resources;
+using System.Reflection;
 
 namespace Mohaymen.StudentProject;
 public class Program {
+    private static readonly ResourceManager ResourceManager = new ResourceManager("students_project.assets.Resources", Assembly.GetExecutingAssembly());
+    private static readonly string StudentsFilePath = ResourceManager.GetString("StudentsFilePath");
+    private static readonly string ScoresFilePath = ResourceManager.GetString("ScoresFilePath");	
     private const int TopStudentsCount = 3;
-    private const string StudentsFilePath = @"data\students.json";
-    private const string ScoresFilePath = @"data\scores.json";
-    
     public static void Main()
     {
         var students = new List<Student>();
