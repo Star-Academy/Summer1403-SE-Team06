@@ -16,9 +16,10 @@ public class InvertedIndex
             string filePath = file.Key;
             string fileText = file.Value;
             var words = Regex.Split(fileText, @"[^\w']+");
-
+            
             foreach(var word in words)
             {
+                if (string.IsNullOrWhiteSpace(word)) continue;
                 string upperWord = word.ToUpper();
                 if(!InvertedIndexMap.ContainsKey(upperWord))
                 {
@@ -27,12 +28,6 @@ public class InvertedIndex
 
                 InvertedIndexMap[upperWord].Add(filePath);
             }
-        }
-
-        // Removes the empty string caused by regex split
-        if(InvertedIndexMap.ContainsKey(""))
-        {
-            InvertedIndexMap.Remove("");
         }
     }
 
