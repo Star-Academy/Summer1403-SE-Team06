@@ -8,6 +8,7 @@ class Program
     public static void Main()
     {
         var fileReader = new FileReader();
+        
         Dictionary<string, string> filesContent;
         try
         {
@@ -18,27 +19,34 @@ class Program
             Console.WriteLine(exception.Message);
             return;
         }
-
+        
+        Console.WriteLine("Processing files...");
+        
         var invertedIndex = new InvertedIndex();
         invertedIndex.ProcessFilesWords(filesContent);
-
-        Console.Write("Enter your word: ");
-        string? input = Console.ReadLine();
-        while(!string.IsNullOrEmpty(input))
+        
+        while(true)
         {
+            Console.Write("Enter your word: ");
+            var input = Console.ReadLine();
+            
+            if (string.IsNullOrWhiteSpace(input)) break;
+            
             HashSet<string> containingFiles = invertedIndex.SearchWord(input);
             if(containingFiles.Count == 0)
             {
                 Console.WriteLine("Word doesn't exist in any document");
+                continue;
             }
-
-            foreach(var file in containingFiles)
+            
+            var count = containingFiles.Count;
+            Console.WriteLine($"Word found in {count} file{(count > 1 ? "s" : "")}");
+            Console.WriteLine("----------------------");
+            foreach(var fileName in containingFiles)
             {
-                Console.WriteLine(file);
+                Console.WriteLine($"File '{fileName}'");
             }
-
-            Console.Write("\nEnter your word: ");
-            input = Console.ReadLine();
+            Console.WriteLine("----------------------");
         }
     }
 }
