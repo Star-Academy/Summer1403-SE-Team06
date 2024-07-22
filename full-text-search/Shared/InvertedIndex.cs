@@ -22,6 +22,7 @@ public class InvertedIndex
 
             foreach(var word in words)
             {
+                if (string.IsNullOrWhiteSpace(word)) continue;
                 string upperWord = word.ToUpper();
                 if(!InvertedIndexMap.ContainsKey(upperWord))
                 {
@@ -31,25 +32,13 @@ public class InvertedIndex
                 InvertedIndexMap[upperWord].Add(filePath);
             }
         }
-
-        // Removes the empty string caused by regex split
-        if(InvertedIndexMap.ContainsKey(""))
-        {
-            InvertedIndexMap.Remove("");
-        }
     }
 
     public HashSet<string> SearchWord(string word)
     {
         string upperWord = word.ToUpper();
-        try
-        {
-            return InvertedIndexMap[upperWord];
-        }
-        catch
-        {
-            return new HashSet<string>();
-        }
+        InvertedIndexMap.TryGetValue(upperWord, out HashSet<string>? result);
+        return result ?? new HashSet<string>();
     }
 
     public HashSet<string> AdvancedSearch(List<string> mandatories, List<string> optionals, List<string> excludeds)
