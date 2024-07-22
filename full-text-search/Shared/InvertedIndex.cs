@@ -16,18 +16,19 @@ public class InvertedIndex
             string filePath = file.Key;
             string fileText = file.Value;
             var words = Regex.Split(fileText, @"[^\w']+");
-            
-            foreach(var word in words)
-            {
-                if (string.IsNullOrWhiteSpace(word)) continue;
-                string upperWord = word.ToUpper();
-                if(!InvertedIndexMap.ContainsKey(upperWord))
-                {
-                    InvertedIndexMap.Add(upperWord, new HashSet<string>());
-                }
 
-                InvertedIndexMap[upperWord].Add(filePath);
-            }
+            InvertedIndexMap = words
+                .Where(word => !string.IsNullOrWhiteSpace(word))
+                .Select(word => word.ToUpper())
+                .Aggregate(InvertedIndexMap, (map, upperWord) =>
+                {
+                    if (!map.ContainsKey(upperWord))
+                    {
+                        map[upperWord] = new HashSet<string>();
+                    }
+                    map[upperWord].Add(filePath);
+                    return map;
+                });
         }
     }
 
