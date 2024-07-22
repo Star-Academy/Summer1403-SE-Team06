@@ -61,7 +61,23 @@ public class InvertedIndex
             result.IntersectWith(currentFiles);
         }
 
+        var optionalsSet = new HashSet<string>();
+        foreach (var optional in optionals)
+        { 
+            HashSet<string> currentFiles = SearchWord(optional);
+            optionalsSet.UnionWith(currentFiles); 
+        }
+
+        if (optionals.Count > 0)
+        {
+            result.IntersectWith(optionalsSet);
+        }
         
+        foreach (var excluded in excludeds)
+        {
+            HashSet<string> currentFiles = SearchWord(excluded);
+            result.ExceptWith(currentFiles);
+        }
 
         return result;
     }
