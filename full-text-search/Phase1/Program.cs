@@ -1,10 +1,13 @@
 ﻿using Mohaymen.FullTextSearch.Shared;
+using System.Resources;
+using System.Reflection;
 
 namespace Mohaymen.FullTextSearch.Phase1;
 class Program
 {
-    private const string FolderPath = @"..\EnglishData";
-    
+    private static readonly ResourceManager ResourceManager = new ResourceManager("full_text_search_phase1.assets.Resources", Assembly.GetExecutingAssembly());
+    private static readonly string FolderPath = ResourceManager.GetString("DocumentsPath") ??"";
+
     public static void Main()
     {
         var fileReader = new FileReader();

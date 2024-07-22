@@ -5,6 +5,7 @@
     </ItemGroup>
 
     <PropertyGroup>
+        <RootNamespace>full_text_search_phase1</RootNamespace>
         <OutputType>Exe</OutputType>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
