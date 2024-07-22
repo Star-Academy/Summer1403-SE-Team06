@@ -21,15 +21,13 @@ public class Program {
             Console.WriteLine(exception.Message);
             return;
         }
-
-
-
+        
         Dictionary<int, Student> studentsMap = new();
         students.ForEach(student => studentsMap.Add(student.StudentNumber, student));
 
         List<GpaInformation> topStudentsGpa = GetTopStudentsGpa(studentScores);
 
-        foreach(GpaInformation topStudentGpa in topStudentsGpa)
+        foreach(var topStudentGpa in topStudentsGpa)
         {
             var student = studentsMap[topStudentGpa.StudentNumber];
             Console.WriteLine($"{student.FirstName} {student.LastName} : {topStudentGpa.Gpa:F2}");
