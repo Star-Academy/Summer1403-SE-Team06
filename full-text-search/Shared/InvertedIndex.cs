@@ -34,13 +34,7 @@ public class InvertedIndex
     public HashSet<string> SearchWord(string word)
     {
         string upperWord = word.ToUpper();
-        try
-        {
-            return InvertedIndexMap[upperWord];
-        }
-        catch
-        {
-            return new HashSet<string>();
-        }
+        InvertedIndexMap.TryGetValue(upperWord, out HashSet<string>? result);
+        return result ?? new HashSet<string>();
     }
 }
