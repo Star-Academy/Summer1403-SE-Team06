@@ -27,7 +27,7 @@ class Program
         }
         catch(Exception exception)
         {
-            Console.WriteLine(exception.Message);
+            logger.LogError(exception, "An error occurred while reading files.");
             return;
         }
         
@@ -46,12 +46,12 @@ class Program
             HashSet<string> containingFiles = invertedIndex.SearchWord(input);
             if(containingFiles.Count == 0)
             {
-                Console.WriteLine("Word doesn't exist in any document");
+                logger.LogInformation("Word doesn't exist in any document");
                 continue;
             }
             
             var count = containingFiles.Count;
-            Console.WriteLine($"Word found in {count} file{(count > 1 ? "s" : "")}");
+            logger.LogInformation($"Word found in {count} file{(count > 1 ? "s" : "")}");
             Console.WriteLine("----------------------");
             foreach(var fileName in containingFiles)
             {
