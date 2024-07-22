@@ -1,15 +1,18 @@
 ﻿using Mohaymen.FullTextSearch.Shared;
 using System.Resources;
 using System.Reflection;
+using Microsoft.Extensions.Logging;
 
 namespace Mohaymen.FullTextSearch.Phase1;
 class Program
 {
     private static readonly ResourceManager ResourceManager = new ResourceManager("full_text_search_phase1.assets.Resources", Assembly.GetExecutingAssembly());
     private static readonly string FolderPath = ResourceManager.GetString("DocumentsPath") ??"";
-
     public static void Main()
     {
+        using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
+        ILogger logger = factory.CreateLogger("Program");
+        
         var fileReader = new FileReader();
         
         Dictionary<string, string> filesContent;
@@ -17,13 +20,18 @@ class Program
         {
             filesContent = fileReader.ReadAllFiles(FolderPath);
         }
+        catch (DirectoryNotFoundException)
+        {
+            logger.LogError("Wrong Folder Path: {path}", FolderPath);
+            return;
+        }
         catch(Exception exception)
         {
             Console.WriteLine(exception.Message);
             return;
         }
         
-        Console.WriteLine("Processing files...");
+        logger.LogInformation("Processing files...");
         
         var invertedIndex = new InvertedIndex();
         invertedIndex.ProcessFilesWords(filesContent);
