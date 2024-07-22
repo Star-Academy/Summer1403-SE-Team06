@@ -4,9 +4,11 @@ namespace Mohaymen.FullTextSearch.Shared;
 public class InvertedIndex
 {
     private Dictionary<string, HashSet<string>> InvertedIndexMap;
+    private HashSet<string> AllFiles;
     public InvertedIndex()
     {
         InvertedIndexMap = new Dictionary<string, HashSet<string>>();
+        AllFiles = new HashSet<string>();
     }
 
     public void ProcessFilesWords(Dictionary<string, string> filesContent)
@@ -16,6 +18,7 @@ public class InvertedIndex
             string filePath = file.Key;
             string fileText = file.Value;
             var words = Regex.Split(fileText, @"[^\w']+");
+            AllFiles.Add(filePath);
 
             foreach(var word in words)
             {
@@ -47,5 +50,19 @@ public class InvertedIndex
         {
             return new HashSet<string>();
         }
+    }
+
+    public HashSet<string> AdvancedSearch(List<string> mandatories, List<string> optionals, List<string> excludeds)
+    {
+        var result = new HashSet<string>(AllFiles);
+        foreach(var mandatory in mandatories)
+        {
+            HashSet<string> currentFiles = SearchWord(mandatory);
+            result.IntersectWith(currentFiles);
+        }
+
+        
+
+        return result;
     }
 }
