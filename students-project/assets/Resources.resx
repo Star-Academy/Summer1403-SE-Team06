@@ -14,7 +14,7 @@
   </resheader>
 
   <data name="StudentsFilePath" xml:space="preserve">
-    <value>assets\data\student.json</value>
+    <value>assets\data\students.json</value>
   </data>
   <data name="ScoresFilePath" xml:space="preserve">
     <value>assets\data\scores.json</value>
