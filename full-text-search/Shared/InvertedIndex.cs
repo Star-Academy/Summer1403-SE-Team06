@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 
-namespace Mohaymen.FullTextSearch;
-class InvertedIndex
+namespace Mohaymen.FullTextSearch.Shared;
+public class InvertedIndex
 {
     private Dictionary<string, HashSet<string>> InvertedIndexMap;
     public InvertedIndex()

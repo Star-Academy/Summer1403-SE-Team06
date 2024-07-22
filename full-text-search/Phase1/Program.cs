@@ -1,10 +1,10 @@
-﻿using System.IO;
-using System.Text.Json;
+﻿using Mohaymen.FullTextSearch.Shared;
 
-namespace Mohaymen.FullTextSearch;
+namespace Mohaymen.FullTextSearch.Phase1;
 class Program
 {
-    private const string FolderPath = "EnglishData";
+    private const string FolderPath = @"..\EnglishData";
+    
     public static void Main()
     {
         var fileReader = new FileReader();
@@ -23,7 +23,7 @@ class Program
         invertedIndex.ProcessFilesWords(filesContent);
 
         Console.Write("Enter your word: ");
-        string input = Console.ReadLine();
+        string? input = Console.ReadLine();
         while(!string.IsNullOrEmpty(input))
         {
             HashSet<string> containingFiles = invertedIndex.SearchWord(input);

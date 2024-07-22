@@ -1,5 +1,6 @@
-namespace Mohaymen.FullTextSearch;
-class FileReader
+namespace Mohaymen.FullTextSearch.Shared;
+
+public class FileReader
 {
     public Dictionary<string, string> ReadAllFiles(string folderPath)
     {
