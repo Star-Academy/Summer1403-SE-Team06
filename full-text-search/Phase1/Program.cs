@@ -53,8 +53,8 @@ class Program
 
     private static void InitializeLogger()
     {
-        using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
-        _logger = factory.CreateLogger("Program");
+        using var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+        _logger = loggerFactory.CreateLogger("Program");
     }
 
     private static void HandleUserInput()
