@@ -25,8 +25,8 @@ class Program
         
         Console.WriteLine("Processing files...");
         
-        var invertedIndex = new InvertedIndex();
-        invertedIndex.ProcessFilesWords(filesContent);
+        var advancedInvertedIndex = new AdvancedInvertedIndex();
+        advancedInvertedIndex.ProcessFilesWords(filesContent);
         
         while(true)
         {
@@ -37,7 +37,7 @@ class Program
 
             var (mandatoryWords, optionalWords, excludedWords) = SplitInput(input);
             
-            HashSet<string> containingFiles = invertedIndex.AdvancedSearch(mandatoryWords, optionalWords, excludedWords);
+            HashSet<string> containingFiles = advancedInvertedIndex.AdvancedSearch(mandatoryWords, optionalWords, excludedWords);
             if(containingFiles.Count == 0)
             {
                 Console.WriteLine("Word doesn't exist in any document");
