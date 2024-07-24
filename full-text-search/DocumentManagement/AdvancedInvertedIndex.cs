@@ -1,4 +1,3 @@
-using System.Text.RegularExpressions;
 using DocumentManagement;
 
 namespace Mohaymen.FullTextSearch.DocumentManagement;
