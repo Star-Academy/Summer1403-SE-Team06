@@ -1,4 +1,4 @@
-﻿using Mohaymen.FullTextSearch.Shared;
+﻿using Mohaymen.FullTextSearch.Conceptual;
 using System.Resources;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
@@ -17,7 +17,7 @@ class Program
     {
         InitializeLogger();
 
-        if (!LoadFilesAndIndexThem()) return;
+        if (!TryToLoadFilesAndIndexThem()) return;
 
         while(_isProgramRunning)
         {
@@ -25,7 +25,7 @@ class Program
         }
     }
 
-    private static bool LoadFilesAndIndexThem()
+    private static bool TryToLoadFilesAndIndexThem()
     {
         var fileReader = new FileReader();
         

@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Mohaymen.FullTextSearch.Shared;
+namespace Mohaymen.FullTextSearch.Conceptual;
 public class InvertedIndex
 {
     private Dictionary<string, HashSet<string>> _invertedIndexMap;

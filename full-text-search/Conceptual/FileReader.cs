@@ -1,4 +1,4 @@
-namespace Mohaymen.FullTextSearch.Shared;
+namespace Mohaymen.FullTextSearch.Conceptual;
 
 public class FileReader
 {
