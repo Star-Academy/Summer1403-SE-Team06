@@ -1,4 +1,4 @@
-﻿using Mohaymen.FullTextSearch.Shared;
+﻿using Mohaymen.FullTextSearch.DocumentManagement;
 using System.Resources;
 using System.Reflection;
 

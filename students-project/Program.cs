@@ -1,32 +1,47 @@
 ﻿using System.Text.Json;
+using System.Resources;
+using System.Reflection;
 
+namespace Mohaymen.StudentProject;
 public class Program {
+    private static readonly ResourceManager ResourceManager = new ResourceManager("students_project.assets.Resources", Assembly.GetExecutingAssembly());
+    private static readonly string StudentsFilePath = ResourceManager.GetString("StudentsFilePath");
+    private static readonly string ScoresFilePath = ResourceManager.GetString("ScoresFilePath");	
     private const int TopStudentsCount = 3;
-    private const string StudentsFilePath = @"data\students.json";
-    private const string ScoresFilePath = @"data\scores.json";
-    
     public static void Main()
     {
-        var students = JsonSerializer.Deserialize<List<Student>>(File.ReadAllText(StudentsFilePath));
-        var studentScores = JsonSerializer.Deserialize<List<StudentScore>>(File.ReadAllText(ScoresFilePath));
+        var students = new List<Student>();
+        var studentScores = new List<StudentScore>();
 
-        var studentsMap = new Dictionary<int, Student>();
+        try
+        {
+            students = JsonSerializer.Deserialize<List<Student>>(File.ReadAllText(StudentsFilePath));
+            studentScores = JsonSerializer.Deserialize<List<StudentScore>>(File.ReadAllText(ScoresFilePath));
+        }
+        catch (Exception exception)
+        {
+            Console.WriteLine(exception.Message);
+            return;
+        }
+        
+        Dictionary<int, Student> studentsMap = new();
         students.ForEach(student => studentsMap.Add(student.StudentNumber, student));
 
-        var topStudents = GetTopStudents(studentScores);
-        
-        for (var i = 0; i < topStudents.Count; i++)
+        List<GpaInformation> topStudentsGpa = GetTopStudentsGpa(studentScores);
+
+        foreach(var topStudentGpa in topStudentsGpa)
         {
-            var currentStudent = topStudents[i];
-            Student studentInfo = studentsMap[currentStudent.StudentNumber];
-            Console.WriteLine($"{i + 1}.{studentInfo.FirstName} {studentInfo.LastName} : {currentStudent.Gpa:F2}");
+            var student = studentsMap[topStudentGpa.StudentNumber];
+            Console.WriteLine($"{student.FirstName} {student.LastName} : {topStudentGpa.Gpa:F2}");
         }
     }
 
-    private static List<GpaInfo> GetTopStudents(List<StudentScore> studentScores)
+    private record GpaInformation(int StudentNumber, double Gpa);
+    
+    private static List<GpaInformation> GetTopStudentsGpa(List<StudentScore> studentScores)
     {
         var topStudents = studentScores.GroupBy(studentScore => studentScore.StudentNumber)
-            .Select(group => new GpaInfo(
+            .Select(group => new GpaInformation(
                 group.Key,
                 group.Average(studentScore => studentScore.Score)
             )).OrderByDescending(group => group.Gpa).
@@ -34,18 +49,4 @@ public class Program {
             ToList();
         return topStudents;
     }
-
-    private record GpaInfo(int StudentNumber, double Gpa);
-}
-
-public class Student {
-    public int StudentNumber {get; set;}
-    public string FirstName {get; set;}
-    public string LastName {get; set;}
-}
-
-public class StudentScore {
-    public int StudentNumber {get; set;}
-    public string Lesson {get; set;}
-    public double Score {get; set;}
 }

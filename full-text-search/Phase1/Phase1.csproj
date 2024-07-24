@@ -1,9 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <ItemGroup>
-      <ProjectReference Include="..\Shared\Shared.csproj" />
-    </ItemGroup>
-
     <PropertyGroup>
         <RootNamespace>full_text_search_phase1</RootNamespace>
         <OutputType>Exe</OutputType>
@@ -15,6 +11,10 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DocumentManagement\DocumentManagement.csproj" />
     </ItemGroup>
 
 </Project>

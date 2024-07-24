@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared\Shared.csproj" />
+    <ProjectReference Include="..\DocumentManagement\DocumentManagement.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

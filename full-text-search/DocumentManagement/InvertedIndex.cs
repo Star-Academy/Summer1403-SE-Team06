@@ -1,49 +1,48 @@
 using System.Text.RegularExpressions;
 
-namespace Mohaymen.FullTextSearch.Shared;
+namespace Mohaymen.FullTextSearch.DocumentManagement;
 public class InvertedIndex
 {
-    private Dictionary<string, HashSet<string>> InvertedIndexMap;
-    private HashSet<string> AllFiles;
+    private Dictionary<string, HashSet<string>> _invertedIndexMap;
+    private HashSet<string> _allFiles;
     public InvertedIndex()
     {
-        InvertedIndexMap = new Dictionary<string, HashSet<string>>();
-        AllFiles = new HashSet<string>();
+        _invertedIndexMap = new Dictionary<string, HashSet<string>>();
+        _allFiles = new HashSet<string>();
     }
 
     public void ProcessFilesWords(Dictionary<string, string> filesContent)
     {
-        foreach(var file in filesContent)
+        foreach(var (filePath, fileText) in filesContent)
         {
-            string filePath = file.Key;
-            string fileText = file.Value;
             var words = Regex.Split(fileText, @"[^\w']+");
-            AllFiles.Add(filePath);
+            _allFiles.Add(filePath);
 
-            foreach(var word in words)
-            {
-                if (string.IsNullOrWhiteSpace(word)) continue;
-                string upperWord = word.ToUpper();
-                if(!InvertedIndexMap.ContainsKey(upperWord))
+            _invertedIndexMap = words
+                .Where(word => !string.IsNullOrWhiteSpace(word))
+                .Select(word => word.ToUpper())
+                .Aggregate(_invertedIndexMap, (map, upperWord) =>
                 {
-                    InvertedIndexMap.Add(upperWord, new HashSet<string>());
-                }
-
-                InvertedIndexMap[upperWord].Add(filePath);
-            }
+                    if (!map.ContainsKey(upperWord))
+                    {
+                        map[upperWord] = new HashSet<string>();
+                    }
+                    map[upperWord].Add(filePath);
+                    return map;
+                });
         }
     }
 
     public HashSet<string> SearchWord(string word)
     {
         string upperWord = word.ToUpper();
-        InvertedIndexMap.TryGetValue(upperWord, out HashSet<string>? result);
+        _invertedIndexMap.TryGetValue(upperWord, out HashSet<string>? result);
         return result ?? new HashSet<string>();
     }
 
     public HashSet<string> AdvancedSearch(List<string> mandatories, List<string> optionals, List<string> excludeds)
     {
-        var result = new HashSet<string>(AllFiles);
+        var result = new HashSet<string>(_allFiles);
         foreach(var mandatory in mandatories)
         {
             HashSet<string> currentFiles = SearchWord(mandatory);
