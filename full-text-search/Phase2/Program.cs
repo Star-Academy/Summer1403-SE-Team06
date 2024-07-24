@@ -1,6 +1,7 @@
 ﻿using Mohaymen.FullTextSearch.DocumentManagement;
 using System.Resources;
 using System.Reflection;
+using DocumentManagement;
 using Microsoft.Extensions.Logging;
 
 namespace Mohaymen.FullTextSearch.Phase2;
@@ -12,7 +13,7 @@ class Program
     private static readonly string FolderPath = ResourceManager.GetString("DocumentsPath") ??"";
     private static bool _isProgramRunning = true;
     private static ILogger? _logger;
-    private static readonly AdvancedInvertedIndex advancedInvertedIndex = new();
+    private static readonly AdvancedInvertedIndex AdvancedInvertedIndex = new();
 
     public static void Main()
     {
@@ -47,7 +48,7 @@ class Program
         }
         
         _logger?.LogInformation("Processing files...");
-        advancedInvertedIndex.ProcessFilesWords(filesContent);
+        AdvancedInvertedIndex.ProcessFilesWords(filesContent);
         _logger?.LogInformation("{fileCount} files loaded.", filesContent.Count);
         return true;
     }
@@ -69,9 +70,9 @@ class Program
             return;
         };
 
-        var (mandatoryWords, optionalWords, excludedWords) = SplitInput(input);
+        var searchQuery = ParseInputToSearchQuery(input);
             
-        HashSet<string> containingFiles = advancedInvertedIndex.AdvancedSearch(mandatoryWords, optionalWords, excludedWords);
+        HashSet<string> containingFiles = AdvancedInvertedIndex.AdvancedSearch(searchQuery);
         if(containingFiles.Count == 0)
         {
             Console.WriteLine("No result for your statement");
@@ -88,7 +89,7 @@ class Program
         Console.WriteLine("----------------------");
     }
 
-    private static (List<string> mandatories, List<string> optionals, List<string> excludeds) SplitInput(string input)
+    private static SearchQuery ParseInputToSearchQuery(string input)
     {
         var mandatoryWords = new List<string>();
         var optionalWords = new List<string>();
@@ -111,6 +112,6 @@ class Program
             }
         }
         
-        return (mandatoryWords, optionalWords, excludedWords);
+        return new SearchQuery(mandatoryWords, optionalWords, excludedWords);
     }
 }

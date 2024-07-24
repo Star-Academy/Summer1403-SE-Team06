@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using DocumentManagement;
 
 namespace Mohaymen.FullTextSearch.DocumentManagement;
 
@@ -19,8 +20,10 @@ public class AdvancedInvertedIndex
         _invertedIndex.ProcessFilesWords(filesContent);
     }
 
-    public HashSet<string> AdvancedSearch(List<string> mandatories, List<string> optionals, List<string> excludeds)
+    public HashSet<string> AdvancedSearch(SearchQuery searchQuery)
     {
+        var (mandatories, optionals, excludeds) = searchQuery;
+        
         var result = new HashSet<string>(_allFiles);
         foreach(var mandatory in mandatories)
         {
