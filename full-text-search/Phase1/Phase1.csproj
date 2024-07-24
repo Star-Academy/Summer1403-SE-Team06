@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Conceptual\Conceptual.csproj" />
+      <ProjectReference Include="..\DocumentManagement\DocumentManagement.csproj" />
     </ItemGroup>
 
 </Project>

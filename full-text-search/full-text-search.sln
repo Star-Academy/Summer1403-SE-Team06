@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Conceptual", "Conceptual\Conceptual.csproj", "{D471FD38-26BA-4DEF-96A2-982F235AEA01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentManagement", "DocumentManagement\DocumentManagement.csproj", "{D471FD38-26BA-4DEF-96A2-982F235AEA01}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phase1", "Phase1\Phase1.csproj", "{DD2ED4A6-A1A2-42A2-887D-BA56529C59E5}"
 EndProject

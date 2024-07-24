@@ -1,4 +1,4 @@
-﻿using Mohaymen.FullTextSearch.Conceptual;
+﻿using Mohaymen.FullTextSearch.DocumentManagement;
 using System.Resources;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
