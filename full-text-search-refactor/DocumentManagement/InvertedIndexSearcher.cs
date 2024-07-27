@@ -11,14 +11,14 @@ public class InvertedIndexSearcher(InvertedIndex invertedIndex) : ISearcher<stri
         var result = new HashSet<string>(invertedIndex.AllDocuments);
         foreach (var mandatory in mandatories)
         {
-            HashSet<string> currentFiles = invertedIndex.GetDocumentsContainingKeyword(mandatory);
+            HashSet<string> currentFiles = invertedIndex.GetDocumentsByKeyword(mandatory);
             result.IntersectWith(currentFiles);
         }
 
         var optionalsSet = new HashSet<string>();
         foreach (var optional in optionals)
         {
-            HashSet<string> currentFiles = invertedIndex.GetDocumentsContainingKeyword(optional);
+            HashSet<string> currentFiles = invertedIndex.GetDocumentsByKeyword(optional);
             optionalsSet.UnionWith(currentFiles);
         }
 
@@ -26,7 +26,7 @@ public class InvertedIndexSearcher(InvertedIndex invertedIndex) : ISearcher<stri
 
         foreach (var excluded in excludeds)
         {
-            HashSet<string> currentFiles = invertedIndex.GetDocumentsContainingKeyword(excluded);
+            HashSet<string> currentFiles = invertedIndex.GetDocumentsByKeyword(excluded);
             result.ExceptWith(currentFiles);
         }
 

@@ -17,19 +17,23 @@ internal class Program
     public static void Main()
     {
         InitializeLogger();
+
+        FileCollection fileCollection;
         try
         {
-            var invertedIndex = LoadFilesAndIndexThem();
-            StartProgram(invertedIndex);
+            fileCollection = LoadFiles();
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             throw;
         }
+
+        InvertedIndex invertedIndex = IndexFiles(fileCollection);
+        StartProgram(invertedIndex);
     }
 
-    private static InvertedIndex LoadFilesAndIndexThem()
+    private static FileCollection LoadFiles()
     {
         var fileReader = new FileReader();
 
@@ -37,6 +41,7 @@ internal class Program
         try
         {
             fileCollection = fileReader.ReadAllFiles(FolderPath);
+            return fileCollection;
         }
         catch (DirectoryNotFoundException exception)
         {
@@ -48,10 +53,13 @@ internal class Program
             _logger?.LogError(exception, "An error occurred while reading files.");
             throw;
         }
+    }
 
+    private static InvertedIndex IndexFiles(FileCollection fileCollection)
+    {
         _logger?.LogInformation("Processing files...");
         var invertedIndexBuilder = new InvertedIndexBuilder();
-        var invertedIndex = invertedIndexBuilder.ProcessFilesWords(fileCollection).Build();
+        var invertedIndex = invertedIndexBuilder.IndexFilesWords(fileCollection).Build();
         _logger?.LogInformation("{fileCount} files loaded.", fileCollection.FilesCount());
         return invertedIndex;
     }
@@ -71,12 +79,12 @@ internal class Program
             Console.Write("Enter your statement (Enter !q to exit): ");
             var input = Console.ReadLine()?.Trim() ?? "";
 
-            if (input == "!q") break;
-            ;
+            if (input == "!q") 
+                break;
 
             var searchQuery = ParseInputToSearchQuery(input);
-
             ICollection<string> containingFiles = searcher.Search(searchQuery);
+
             if (containingFiles.Count == 0)
             {
                 Console.WriteLine("No result for your statement");

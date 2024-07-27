@@ -8,7 +8,9 @@ public class FileReader
             .GetFiles(folderPath)
             .Aggregate(new FileCollection(), (collection, filePath) =>
             {
-                if (!collection.ContainsFile(filePath)) collection.AddFile(filePath, File.ReadAllText(filePath));
+                if (!collection.ContainsFile(filePath))
+                    collection.AddFile(filePath,
+                    File.ReadAllText(filePath));
 
                 return collection;
             });

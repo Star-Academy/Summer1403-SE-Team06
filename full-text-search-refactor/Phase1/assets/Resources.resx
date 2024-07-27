@@ -123,6 +123,6 @@
         </value>
     </resheader>
     <data name="DocumentsPath" xml:space="preserve">
-    <value>..\..\..\..\EnglishData</value>
+    <value>..\EnglishData</value>
   </data>
 </root>

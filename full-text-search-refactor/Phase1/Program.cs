@@ -51,7 +51,7 @@ internal class Program
 
         _logger?.LogInformation("Processing files...");
         var invertedIndexBuilder = new InvertedIndexBuilder();
-        var invertedIndex = invertedIndexBuilder.ProcessFilesWords(fileCollection).Build();
+        var invertedIndex = invertedIndexBuilder.IndexFilesWords(fileCollection).Build();
         _logger?.LogInformation("{fileCount} files loaded.", fileCollection.FilesCount());
         return invertedIndex;
     }
@@ -65,14 +65,13 @@ internal class Program
     private static void StartProgram(InvertedIndex invertedIndex)
     {
         var searcher = new InvertedIndexSearcher(invertedIndex);
-        
+
         while (true)
         {
             Console.Write("Enter your word (Enter !q to exit): ");
             var input = Console.ReadLine()?.Trim() ?? "";
 
             if (input == "!q") break;
-            ;
 
             var searchQuery = new SearchQuery([new Keyword(input)], [], []);
 

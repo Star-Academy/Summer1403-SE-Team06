@@ -7,20 +7,31 @@ public class InvertedIndexBuilder
 {
     private readonly InvertedIndex _invertedIndex = new();
 
-    public InvertedIndexBuilder ProcessFilesWords(FileCollection fileCollection)
+    public InvertedIndexBuilder IndexFilesWords(FileCollection fileCollection)
     {
         foreach (var filePath in fileCollection.GetFilesPath())
         {
-            var words = Regex.Split(fileCollection.GetFileContent(filePath), @"[^\w']+");
-
-            words
-                .Where(word => !string.IsNullOrWhiteSpace(word))
-                .Select(word => new Keyword(word))
-                .ToList()
-                .ForEach(keyword => _invertedIndex.AddKeyword(keyword, filePath));
+            var keywords = ExtractKeywords(fileCollection.GetFileContent(filePath));
+            UpdateInvertedIndexMap(keywords, filePath);
         }
 
         return this;
+    }
+
+    public void UpdateInvertedIndexMap(List<Keyword> keywords, string filePath)
+    {
+        foreach(var keyword in keywords)
+        {
+            _invertedIndex.AssociateKeywordWithDocument(keyword, filePath);
+        }
+    }
+
+    public List<Keyword> ExtractKeywords(string fileContent)
+    {
+        return Regex.Split(fileContent, @"[^\w']+")
+                    .Where(word => !string.IsNullOrWhiteSpace(word))
+                    .Select(word => new Keyword(word))
+                    .ToList();
     }
 
     public InvertedIndex Build()
