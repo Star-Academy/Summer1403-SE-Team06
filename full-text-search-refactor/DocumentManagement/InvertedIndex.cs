@@ -1,69 +1,24 @@
-using System.Text.RegularExpressions;
-
 namespace Mohaymen.FullTextSearch.DocumentManagement;
+
 public class InvertedIndex
 {
-    private Dictionary<Keyword, HashSet<string>> _invertedIndexMap;
-    public InvertedIndex()
+    private readonly Dictionary<Keyword, HashSet<string>> _invertedIndexMap = [];
+    public HashSet<string> AllDocuments { get; } = [];
+
+    public void AddKeyword(Keyword keyword, string document)
     {
-        _invertedIndexMap = new Dictionary<Keyword, HashSet<string>>();
+        AllDocuments.Add(document);
+
+        if (!_invertedIndexMap.ContainsKey(keyword)) 
+            _invertedIndexMap.Add(keyword, []);
+
+        _invertedIndexMap[keyword].Add(document);
     }
 
-    // public void ProcessFilesWords(Dictionary<string, string> filesContent)
-    // {
-    //     foreach(var (filePath, fileText) in filesContent)
-    //     {
-    //         var words = Regex.Split(fileText, @"[^\w']+");
-
-    //         _invertedIndexMap = words
-    //             .Where(word => !string.IsNullOrWhiteSpace(word))
-    //             .Select(word => word.ToUpper())
-    //             .Aggregate(_invertedIndexMap, (map, searchWord) =>
-    //             {
-    //                 if (!map.ContainsKey(searchWord))
-    //                 {
-    //                     map[searchWord] = new HashSet<string>();
-    //                 }
-    //                 map[searchWord].Add(filePath);
-    //                 return map;
-    //             });
-    //     }
-    // }
-
-    public void ProcessFilesWords(IEnumerable<FileData> filesData)
+    public HashSet<string> GetDocumentsContainingKeyword(Keyword keyword)
     {
-        foreach(var fileData in filesData)
-        {
-            var words = Regex.Split(fileData.FileContent, @"[^\w']+");
+        _invertedIndexMap.TryGetValue(keyword, out HashSet<string>? documents);
 
-            _invertedIndexMap = words
-                .Where(word => !string.IsNullOrWhiteSpace(word))
-                .Select(word => new Keyword(word))
-                .Aggregate(_invertedIndexMap, (map, searchWord) =>
-                {
-                    if (!map.ContainsKey(searchWord))
-                    {
-                        map[searchWord] = new HashSet<string>();
-                    }
-                    map[searchWord].Add(fileData.FilePath);
-                    return map;
-                });
-        }
-    }
-
-    public HashSet<string> SearchWord(string word)
-    {
-        var searchWord = new Keyword(word);
-        _invertedIndexMap.TryGetValue(searchWord, out HashSet<string>? result);
-        return result ?? new HashSet<string>();
-    }
-}
-
-public class Keyword
-{
-    public string Value{get;}
-    public Keyword(string value)
-    {
-        Value = value.ToUpper();
+        return documents ?? [];
     }
 }

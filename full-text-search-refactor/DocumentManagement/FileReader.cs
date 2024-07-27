@@ -2,29 +2,17 @@ namespace Mohaymen.FullTextSearch.DocumentManagement;
 
 public class FileReader
 {
-    public IEnumerable<FileData> ReadAllFiles(string folderPath)
+    public FileCollection ReadAllFiles(string folderPath)
     {
-        var filesData = Directory
+        var fileCollection = Directory
             .GetFiles(folderPath)
-            .Select(file => new FileData(
-                file,
-                File.ReadAllText(file)
-            ));
-            
-        return filesData;
+            .Aggregate(new FileCollection(), (collection, filePath) =>
+            {
+                if (!collection.ContainsFile(filePath)) collection.AddFile(filePath, File.ReadAllText(filePath));
+
+                return collection;
+            });
+
+        return fileCollection;
     }
 }
-
-public record FileData(string FilePath, string FileContent);
-
-// public class FileData
-// {
-//     public FileData(string filePath, string fileContent)
-//     {
-//         FilePath = filePath;
-//         FileContent = fileContent;
-//     }
-
-//     public string FilePath{get; set;}
-//     public string FileContent{get; set;}
-// }

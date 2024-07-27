@@ -1,56 +1,59 @@
-﻿using Mohaymen.FullTextSearch.DocumentManagement;
+﻿using System.Reflection;
 using System.Resources;
-using System.Reflection;
 using DocumentManagement;
 using Microsoft.Extensions.Logging;
+using Mohaymen.FullTextSearch.DocumentManagement;
 
 namespace Mohaymen.FullTextSearch.Phase2;
-class Program
+
+internal class Program
 {
     private static readonly ResourceManager ResourceManager =
-        new ("full_text_search_phase2.assets.Resources",
-        Assembly.GetExecutingAssembly());
-    private static readonly string FolderPath = ResourceManager.GetString("DocumentsPath") ??"";
-    private static bool _isProgramRunning = true;
+        new("full_text_search_phase2.assets.Resources", Assembly.GetExecutingAssembly());
+
+    private static readonly string FolderPath = ResourceManager.GetString("DocumentsPath") ?? "";
     private static ILogger? _logger;
-    private static readonly AdvancedInvertedIndex AdvancedInvertedIndex = new();
 
     public static void Main()
     {
         InitializeLogger();
-
-        if (!TryToLoadFilesAndIndexThem()) return;
-        
-        while(_isProgramRunning)
+        try
         {
-            HandleUserInput();
+            var invertedIndex = LoadFilesAndIndexThem();
+            StartProgram(invertedIndex);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
         }
     }
 
-    private static bool TryToLoadFilesAndIndexThem()
+    private static InvertedIndex LoadFilesAndIndexThem()
     {
         var fileReader = new FileReader();
-        
-        IEnumerable<FileData> filesData;
+
+        FileCollection fileCollection;
         try
         {
-            filesData = fileReader.ReadAllFiles(FolderPath);
+            fileCollection = fileReader.ReadAllFiles(FolderPath);
         }
         catch (DirectoryNotFoundException exception)
         {
             _logger?.LogError(exception, "Wrong Folder Path: {path}", FolderPath);
-            return false;
+            throw;
         }
-        catch(Exception exception)
+        catch (Exception exception)
         {
             _logger?.LogError(exception, "An error occurred while reading files.");
-            return false;
+            throw;
         }
-        
+
         _logger?.LogInformation("Processing files...");
-        AdvancedInvertedIndex.ProcessFilesWords(filesData);
-        _logger?.LogInformation("{fileCount} files loaded.", filesData.Count());
-        return true;
+        var invertedIndexBuilder = new InvertedIndexBuilder();
+        var invertedIndex = invertedIndexBuilder.ProcessFilesWords(fileCollection).Build();
+        _logger?.LogInformation("{fileCount} files loaded.", fileCollection.FilesCount());
+        return invertedIndex;
     }
 
     private static void InitializeLogger()
@@ -59,59 +62,50 @@ class Program
         _logger = loggerFactory.CreateLogger("Program");
     }
 
-    private static void HandleUserInput()
+    private static void StartProgram(InvertedIndex invertedIndex)
     {
-        Console.Write("Enter your statement (Enter !q to exit): ");
-        var input = Console.ReadLine()?.Trim() ?? "";
+        var searcher = new InvertedIndexSearcher(invertedIndex);
 
-        if (input == "!q")
+        while (true)
         {
-            _isProgramRunning = false;
-            return;
-        };
+            Console.Write("Enter your statement (Enter !q to exit): ");
+            var input = Console.ReadLine()?.Trim() ?? "";
 
-        var searchQuery = ParseInputToSearchQuery(input);
-            
-        HashSet<string> containingFiles = AdvancedInvertedIndex.AdvancedSearch(searchQuery);
-        if(containingFiles.Count == 0)
-        {
-            Console.WriteLine("No result for your statement");
-            return;
+            if (input == "!q") break;
+            ;
+
+            var searchQuery = ParseInputToSearchQuery(input);
+
+            ICollection<string> containingFiles = searcher.Search(searchQuery);
+            if (containingFiles.Count == 0)
+            {
+                Console.WriteLine("No result for your statement");
+                continue;
+            }
+
+            var count = containingFiles.Count;
+            Console.WriteLine($"Word found in {count} file{(count > 1 ? "s" : "")}");
+            Console.WriteLine("----------------------");
+            foreach (var fileName in containingFiles) Console.WriteLine($"File '{fileName}'");
+            Console.WriteLine("----------------------");
         }
-            
-        var count = containingFiles.Count;
-        Console.WriteLine($"Word found in {count} file{(count > 1 ? "s" : "")}");
-        Console.WriteLine("----------------------");
-        foreach(var fileName in containingFiles)
-        {
-            Console.WriteLine($"File '{fileName}'");
-        }
-        Console.WriteLine("----------------------");
     }
 
     private static SearchQuery ParseInputToSearchQuery(string input)
     {
-        var mandatoryWords = new List<string>();
-        var optionalWords = new List<string>();
-        var excludedWords = new List<string>();
-        
+        var mandatoryWords = new List<Keyword>();
+        var optionalWords = new List<Keyword>();
+        var excludedWords = new List<Keyword>();
+
         var words = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         foreach (var word in words)
-        {
             if (word.StartsWith('+'))
-            {
-                optionalWords.Add(word.Substring(1));
-            }
+                optionalWords.Add(new Keyword(word.Substring(1)));
             else if (word.StartsWith('-'))
-            {
-                excludedWords.Add(word.Substring(1));
-            }
+                excludedWords.Add(new Keyword(word.Substring(1)));
             else
-            {
-                mandatoryWords.Add(word);
-            }
-        }
-        
+                mandatoryWords.Add(new Keyword(word));
+
         return new SearchQuery(mandatoryWords, optionalWords, excludedWords);
     }
 }

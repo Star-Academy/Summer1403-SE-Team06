@@ -1,3 +1,3 @@
-﻿namespace DocumentManagement;
+﻿namespace Mohaymen.FullTextSearch.DocumentManagement;
 
-public record SearchQuery(List<string> Mandatories, List<string> Optionals, List<string> Excludeds);
+public record SearchQuery(List<Keyword> Mandatories, List<Keyword> Optionals, List<Keyword> Excludeds);
