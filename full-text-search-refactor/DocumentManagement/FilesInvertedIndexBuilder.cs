@@ -1,13 +1,12 @@
 ﻿using System.Text.RegularExpressions;
-using Mohaymen.FullTextSearch.DocumentManagement;
 
-namespace DocumentManagement;
+namespace Mohaymen.FullTextSearch.DocumentManagement;
 
-public class InvertedIndexBuilder
+public class FilesInvertedIndexBuilder : IInvertedIndexBuilder
 {
     private readonly InvertedIndex _invertedIndex = new();
 
-    public InvertedIndexBuilder IndexFilesWords(FileCollection fileCollection)
+    public FilesInvertedIndexBuilder IndexFilesWords(FileCollection fileCollection)
     {
         foreach (var filePath in fileCollection.GetFilesPath())
         {
@@ -20,9 +19,9 @@ public class InvertedIndexBuilder
 
     public void UpdateInvertedIndexMap(List<Keyword> keywords, string filePath)
     {
-        foreach(var keyword in keywords)
+        foreach (var keyword in keywords)
         {
-            _invertedIndex.AssociateKeywordWithDocument(keyword, filePath);
+            _invertedIndex.AddDocumentToKeyword(keyword, filePath);
         }
     }
 

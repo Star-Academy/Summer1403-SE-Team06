@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using System.Resources;
-using DocumentManagement;
 using Microsoft.Extensions.Logging;
 using Mohaymen.FullTextSearch.DocumentManagement;
 
@@ -58,7 +57,7 @@ internal class Program
     private static InvertedIndex IndexFiles(FileCollection fileCollection)
     {
         _logger?.LogInformation("Processing files...");
-        var invertedIndexBuilder = new InvertedIndexBuilder();
+        var invertedIndexBuilder = new FilesInvertedIndexBuilder();
         var invertedIndex = invertedIndexBuilder.IndexFilesWords(fileCollection).Build();
         _logger?.LogInformation("{fileCount} files loaded.", fileCollection.FilesCount());
         return invertedIndex;
@@ -79,7 +78,7 @@ internal class Program
             Console.Write("Enter your statement (Enter !q to exit): ");
             var input = Console.ReadLine()?.Trim() ?? "";
 
-            if (input == "!q") 
+            if (input == "!q")
                 break;
 
             var searchQuery = ParseInputToSearchQuery(input);

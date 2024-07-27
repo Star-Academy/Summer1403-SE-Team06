@@ -50,7 +50,7 @@ internal class Program
         }
 
         _logger?.LogInformation("Processing files...");
-        var invertedIndexBuilder = new InvertedIndexBuilder();
+        var invertedIndexBuilder = new FilesInvertedIndexBuilder();
         var invertedIndex = invertedIndexBuilder.IndexFilesWords(fileCollection).Build();
         _logger?.LogInformation("{fileCount} files loaded.", fileCollection.FilesCount());
         return invertedIndex;

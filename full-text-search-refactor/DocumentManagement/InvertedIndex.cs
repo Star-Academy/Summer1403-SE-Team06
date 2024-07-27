@@ -5,7 +5,7 @@ public class InvertedIndex
     private readonly Dictionary<Keyword, HashSet<string>> _invertedIndexMap = [];
     public HashSet<string> AllDocuments { get; } = [];
 
-    public void AssociateKeywordWithDocument(Keyword keyword, string document)
+    public void AddDocumentToKeyword(Keyword keyword, string document)
     {
         AllDocuments.Add(document);
 
