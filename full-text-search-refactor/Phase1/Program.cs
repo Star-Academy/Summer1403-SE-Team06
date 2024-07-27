@@ -29,7 +29,7 @@ class Program
     {
         var fileReader = new FileReader();
         
-        Dictionary<string, string> filesContent;
+        IEnumerable<FileData> filesContent;
         try
         {
             filesContent = fileReader.ReadAllFiles(FolderPath);
@@ -47,7 +47,7 @@ class Program
         
         _logger?.LogInformation("Processing files...");
         InvertedIndex.ProcessFilesWords(filesContent);
-        _logger?.LogInformation("{fileCount} files loaded.", filesContent.Count);
+        _logger?.LogInformation("{fileCount} files loaded.", filesContent.Count());
         return true;
     }
 

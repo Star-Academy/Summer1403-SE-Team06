@@ -13,10 +13,16 @@ public class AdvancedInvertedIndex
         _allFiles = new HashSet<string>();
     }
 
-    public void ProcessFilesWords(Dictionary<string, string> filesContent)
+    // public void ProcessFilesWords(Dictionary<string, string> filesContent)
+    // {
+    //     _allFiles.UnionWith(filesContent.Keys);
+    //     _invertedIndex.ProcessFilesWords(filesContent);
+    // }
+
+    public void ProcessFilesWords(IEnumerable<FileData> filesData)
     {
-        _allFiles.UnionWith(filesContent.Keys);
-        _invertedIndex.ProcessFilesWords(filesContent);
+        _allFiles.UnionWith(filesData.Select(file => file.FilePath));
+        _invertedIndex.ProcessFilesWords(filesData);
     }
 
     public HashSet<string> AdvancedSearch(SearchQuery searchQuery)

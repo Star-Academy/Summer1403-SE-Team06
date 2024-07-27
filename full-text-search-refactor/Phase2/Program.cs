@@ -31,10 +31,10 @@ class Program
     {
         var fileReader = new FileReader();
         
-        Dictionary<string, string> filesContent;
+        IEnumerable<FileData> filesData;
         try
         {
-            filesContent = fileReader.ReadAllFiles(FolderPath);
+            filesData = fileReader.ReadAllFiles(FolderPath);
         }
         catch (DirectoryNotFoundException exception)
         {
@@ -48,8 +48,8 @@ class Program
         }
         
         _logger?.LogInformation("Processing files...");
-        AdvancedInvertedIndex.ProcessFilesWords(filesContent);
-        _logger?.LogInformation("{fileCount} files loaded.", filesContent.Count);
+        AdvancedInvertedIndex.ProcessFilesWords(filesData);
+        _logger?.LogInformation("{fileCount} files loaded.", filesData.Count());
         return true;
     }
 
@@ -98,11 +98,11 @@ class Program
         var words = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         foreach (var word in words)
         {
-            if (word.StartsWith("+"))
+            if (word.StartsWith('+'))
             {
                 optionalWords.Add(word.Substring(1));
             }
-            else if (word.StartsWith("-"))
+            else if (word.StartsWith('-'))
             {
                 excludedWords.Add(word.Substring(1));
             }

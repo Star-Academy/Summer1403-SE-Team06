@@ -3,28 +3,49 @@ using System.Text.RegularExpressions;
 namespace Mohaymen.FullTextSearch.DocumentManagement;
 public class InvertedIndex
 {
-    private Dictionary<string, HashSet<string>> _invertedIndexMap;
+    private Dictionary<Word, HashSet<string>> _invertedIndexMap;
     public InvertedIndex()
     {
-        _invertedIndexMap = new Dictionary<string, HashSet<string>>();
+        _invertedIndexMap = new Dictionary<Word, HashSet<string>>();
     }
 
-    public void ProcessFilesWords(Dictionary<string, string> filesContent)
+    // public void ProcessFilesWords(Dictionary<string, string> filesContent)
+    // {
+    //     foreach(var (filePath, fileText) in filesContent)
+    //     {
+    //         var words = Regex.Split(fileText, @"[^\w']+");
+
+    //         _invertedIndexMap = words
+    //             .Where(word => !string.IsNullOrWhiteSpace(word))
+    //             .Select(word => word.ToUpper())
+    //             .Aggregate(_invertedIndexMap, (map, searchWord) =>
+    //             {
+    //                 if (!map.ContainsKey(searchWord))
+    //                 {
+    //                     map[searchWord] = new HashSet<string>();
+    //                 }
+    //                 map[searchWord].Add(filePath);
+    //                 return map;
+    //             });
+    //     }
+    // }
+
+    public void ProcessFilesWords(IEnumerable<FileData> filesData)
     {
-        foreach(var (filePath, fileText) in filesContent)
+        foreach(var fileData in filesData)
         {
-            var words = Regex.Split(fileText, @"[^\w']+");
+            var words = Regex.Split(fileData.FileContent, @"[^\w']+");
 
             _invertedIndexMap = words
                 .Where(word => !string.IsNullOrWhiteSpace(word))
-                .Select(word => word.ToUpper())
-                .Aggregate(_invertedIndexMap, (map, upperWord) =>
+                .Select(word => new Word(word))
+                .Aggregate(_invertedIndexMap, (map, searchWord) =>
                 {
-                    if (!map.ContainsKey(upperWord))
+                    if (!map.ContainsKey(searchWord))
                     {
-                        map[upperWord] = new HashSet<string>();
+                        map[searchWord] = new HashSet<string>();
                     }
-                    map[upperWord].Add(filePath);
+                    map[searchWord].Add(fileData.FilePath);
                     return map;
                 });
         }
@@ -32,8 +53,17 @@ public class InvertedIndex
 
     public HashSet<string> SearchWord(string word)
     {
-        string upperWord = word.ToUpper();
-        _invertedIndexMap.TryGetValue(upperWord, out HashSet<string>? result);
+        var searchWord = new Word(word);
+        _invertedIndexMap.TryGetValue(searchWord, out HashSet<string>? result);
         return result ?? new HashSet<string>();
+    }
+}
+
+public class Word
+{
+    public string Value{get;}
+    public Word(string value)
+    {
+        Value = value.ToUpper();
     }
 }
