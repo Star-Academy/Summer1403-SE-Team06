@@ -3,10 +3,10 @@ using System.Text.RegularExpressions;
 namespace Mohaymen.FullTextSearch.DocumentManagement;
 public class InvertedIndex
 {
-    private Dictionary<Word, HashSet<string>> _invertedIndexMap;
+    private Dictionary<Keyword, HashSet<string>> _invertedIndexMap;
     public InvertedIndex()
     {
-        _invertedIndexMap = new Dictionary<Word, HashSet<string>>();
+        _invertedIndexMap = new Dictionary<Keyword, HashSet<string>>();
     }
 
     // public void ProcessFilesWords(Dictionary<string, string> filesContent)
@@ -38,7 +38,7 @@ public class InvertedIndex
 
             _invertedIndexMap = words
                 .Where(word => !string.IsNullOrWhiteSpace(word))
-                .Select(word => new Word(word))
+                .Select(word => new Keyword(word))
                 .Aggregate(_invertedIndexMap, (map, searchWord) =>
                 {
                     if (!map.ContainsKey(searchWord))
@@ -53,16 +53,16 @@ public class InvertedIndex
 
     public HashSet<string> SearchWord(string word)
     {
-        var searchWord = new Word(word);
+        var searchWord = new Keyword(word);
         _invertedIndexMap.TryGetValue(searchWord, out HashSet<string>? result);
         return result ?? new HashSet<string>();
     }
 }
 
-public class Word
+public class Keyword
 {
     public string Value{get;}
-    public Word(string value)
+    public Keyword(string value)
     {
         Value = value.ToUpper();
     }
