@@ -1,6 +1,8 @@
 ﻿using System.Text.RegularExpressions;
+using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
+using Mohaymen.FullTextSearch.DocumentManagement.Models;
 
-namespace Mohaymen.FullTextSearch.DocumentManagement;
+namespace Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService;
 
 public class FilesInvertedIndexBuilder : IInvertedIndexBuilder
 {

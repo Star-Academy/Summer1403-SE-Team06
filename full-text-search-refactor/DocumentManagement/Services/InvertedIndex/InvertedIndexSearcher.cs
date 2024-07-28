@@ -1,4 +1,7 @@
-﻿namespace Mohaymen.FullTextSearch.DocumentManagement;
+﻿using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
+using Mohaymen.FullTextSearch.DocumentManagement.Models;
+
+namespace Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService;
 
 public class InvertedIndexSearcher(InvertedIndex invertedIndex) : ISearcher<string>
 {

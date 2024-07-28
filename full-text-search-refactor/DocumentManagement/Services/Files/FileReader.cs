@@ -1,4 +1,5 @@
-namespace Mohaymen.FullTextSearch.DocumentManagement;
+using Mohaymen.FullTextSearch.DocumentManagement.Models;
+namespace Mohaymen.FullTextSearch.DocumentManagement.Services.FilesService;
 
 public class FileReader
 {

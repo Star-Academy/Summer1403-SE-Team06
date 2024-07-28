@@ -1,4 +1,4 @@
-﻿namespace Mohaymen.FullTextSearch.DocumentManagement;
+﻿namespace Mohaymen.FullTextSearch.DocumentManagement.Models;
 
 public record Keyword
 {
