@@ -17,9 +17,8 @@ internal static class Program
         {
             fileCollection = FileLoader.LoadFiles();
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine(e);
             return;
         }
 
