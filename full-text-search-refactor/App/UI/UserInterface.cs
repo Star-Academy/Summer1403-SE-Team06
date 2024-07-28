@@ -1,44 +1,69 @@
-﻿using Mohaymen.FullTextSearch.App.Utilities;
+﻿using Mohaymen.FullTextSearch.App.Interfaces;
 using Mohaymen.FullTextSearch.Assets;
 using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
-using Mohaymen.FullTextSearch.DocumentManagement.Models;
-using Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService;
+
 
 namespace Mohaymen.FullTextSearch.App.UI;
 
-public static class UserInterface
+public class UserInterface
 {
-    public static void StartProgramLoop(IInvertedIndex invertedIndex)
+    private ISearcher<string> _searcher;
+    private IParser _parser;
+
+    public UserInterface(ISearcher<string> searcher, IParser parser)
     {
-        var searcher = new InvertedIndexSearcher(invertedIndex);
+        _searcher = searcher;
+        _parser = parser;
+    }
+    
+    public void StartProgramLoop()
+    {
 
         while (true)
         {
-            Console.Write("Enter your statement (Enter !q to exit): ");
-            var input = Console.ReadLine()?.Trim() ?? "";
+            var input = GetInput();
 
             if (input == "!q")
                 break;
 
-            var searchQuery = Parser.ParseInputToSearchQuery(input);
-            ICollection<string> containingFiles = searcher.Search(searchQuery);
+            var containingFiles = GetContainingFiles(input);
 
-            if (containingFiles.Count == 0)
-            {
-                Console.WriteLine("No result for your statement");
-                continue;
-            }
-
-            var count = containingFiles.Count;
-            Console.WriteLine($"Word found in {count} file{(count > 1 ? "s" : "")}");
-            Console.WriteLine("----------------------");
-            foreach (var filePath in containingFiles)
-            {
-                var documentsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Resources.DocumentsPath);
-                var relativePath = Path.GetRelativePath(documentsPath, filePath);
-                Console.WriteLine($"File '{relativePath}'");
-            };
-            Console.WriteLine("----------------------");
+            DisplayResult(containingFiles);
         }
+    }
+
+    private ICollection<string> GetContainingFiles(string input)
+    {
+        var searchQuery = _parser.ParseInputToSearchQuery(input);
+
+        ICollection<string> containingFiles = _searcher.Search(searchQuery);
+        return containingFiles;
+    }
+
+    private static void DisplayResult(ICollection<string> containingFiles)
+    {
+        if (containingFiles.Count == 0)
+        {
+            Console.WriteLine("No result for your statement");
+            return;
+        }
+
+        var count = containingFiles.Count;
+        Console.WriteLine($"Word found in {count} file{(count > 1 ? "s" : "")}");
+        Console.WriteLine("----------------------");
+        foreach (var filePath in containingFiles)
+        {
+            var documentsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Resources.DocumentsPath);
+            var relativePath = Path.GetRelativePath(documentsPath, filePath);
+            Console.WriteLine($"File '{relativePath}'");
+        };
+        Console.WriteLine("----------------------");
+    }
+
+    private static string GetInput()
+    {
+        Console.Write("Enter your statement (Enter !q to exit): ");
+        var input = Console.ReadLine()?.Trim() ?? "";
+        return input;
     }
 }

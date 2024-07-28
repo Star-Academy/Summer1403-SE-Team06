@@ -6,6 +6,7 @@ using Mohaymen.FullTextSearch.App.Services;
 using Mohaymen.FullTextSearch.App.UI;
 using Mohaymen.FullTextSearch.Assets;
 using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
+using Mohaymen.FullTextSearch.DocumentManagement.Services.FilesService;
 
 namespace Mohaymen.FullTextSearch.App;
 
@@ -14,18 +15,20 @@ internal static class Program
     public static void Main()
     {
         var documentsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Resources.DocumentsPath);
-        FileCollection fileCollection;
         try
         {
-            fileCollection = FileLoader.LoadFiles(documentsPath);
+            var fileLoader = new FileLoader(new FileReader());
+            var fileCollection = fileLoader.LoadFiles(documentsPath);
+            var invertedIndex = IndexFiles(fileCollection);
+            var invertedIndexSearcher = new InvertedIndexSearcher(invertedIndex);
+            var parser = new Parser();
+            var userInterface = new UserInterface(invertedIndexSearcher, parser);
+            userInterface.StartProgramLoop();
         }
-        catch (Exception)
+        catch (Exception exception)
         {
-            return;
+            Console.WriteLine($"An unexpected error occurred: {exception.Message}");
         }
-
-        IInvertedIndex invertedIndex = IndexFiles(fileCollection);
-        UserInterface.StartProgramLoop(invertedIndex);
     }
     
     private static IInvertedIndex IndexFiles(FileCollection fileCollection)

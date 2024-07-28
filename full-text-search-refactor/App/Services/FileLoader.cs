@@ -2,12 +2,20 @@ using Microsoft.Extensions.Logging;
 using Mohaymen.FullTextSearch.DocumentManagement.Models;
 using Mohaymen.FullTextSearch.DocumentManagement.Services.FilesService;
 using Mohaymen.FullTextSearch.App.Utilities;
+using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
 
 namespace Mohaymen.FullTextSearch.App.Services;
 
-public static class FileLoader
+public class FileLoader
 {
-    public static FileCollection LoadFiles(string documentsPath)
+    private IFileReader _fileReader;
+
+    public FileLoader(IFileReader fileReader)
+    {
+        _fileReader = fileReader;
+    }
+    
+    public FileCollection LoadFiles(string documentsPath)
     {
         var fileReader = new FileReader();
         

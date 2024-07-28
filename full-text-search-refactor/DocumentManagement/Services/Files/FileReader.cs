@@ -1,7 +1,8 @@
+using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
 using Mohaymen.FullTextSearch.DocumentManagement.Models;
 namespace Mohaymen.FullTextSearch.DocumentManagement.Services.FilesService;
 
-public class FileReader
+public class FileReader : IFileReader
 {
     public FileCollection ReadAllFiles(string folderPath)
     {

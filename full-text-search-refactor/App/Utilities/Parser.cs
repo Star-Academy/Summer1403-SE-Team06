@@ -1,10 +1,11 @@
+using Mohaymen.FullTextSearch.App.Interfaces;
 using Mohaymen.FullTextSearch.DocumentManagement.Models;
 
 namespace Mohaymen.FullTextSearch.App.Utilities;
 
-public static class Parser
+public class Parser : IParser
 {
-    public static SearchQuery ParseInputToSearchQuery(string input)
+    public SearchQuery ParseInputToSearchQuery(string input)
     {
         var mandatoryWords = new List<Keyword>();
         var optionalWords = new List<Keyword>();
