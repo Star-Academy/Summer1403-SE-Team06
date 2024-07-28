@@ -1,4 +1,5 @@
 ﻿using Mohaymen.FullTextSearch.App.Utilities;
+using Mohaymen.FullTextSearch.Assets;
 using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
 using Mohaymen.FullTextSearch.DocumentManagement.Models;
 using Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService;
@@ -31,7 +32,12 @@ public static class UserInterface
             var count = containingFiles.Count;
             Console.WriteLine($"Word found in {count} file{(count > 1 ? "s" : "")}");
             Console.WriteLine("----------------------");
-            foreach (var fileName in containingFiles) Console.WriteLine($"File '{fileName}'");
+            foreach (var filePath in containingFiles)
+            {
+                var documentsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Resources.DocumentsPath);
+                var relativePath = Path.GetRelativePath(documentsPath, filePath);
+                Console.WriteLine($"File '{relativePath}'");
+            };
             Console.WriteLine("----------------------");
         }
     }
