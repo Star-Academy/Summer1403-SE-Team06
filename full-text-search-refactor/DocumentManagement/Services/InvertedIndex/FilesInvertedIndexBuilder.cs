@@ -1,6 +1,6 @@
-﻿using System.Text.RegularExpressions;
-using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
+﻿using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
 using Mohaymen.FullTextSearch.DocumentManagement.Models;
+using Mohaymen.FullTextSearch.DocumentManagement.Utilities;
 
 namespace Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService;
 
@@ -12,7 +12,7 @@ public class FilesInvertedIndexBuilder : IInvertedIndexBuilder
     {
         foreach (var filePath in fileCollection.GetFilesPath())
         {
-            var keywords = ExtractKeywords(fileCollection.GetFileContent(filePath));
+            var keywords = Tokenizer.ExtractKeywords(fileCollection.GetFileContent(filePath));
             UpdateInvertedIndexMap(keywords, filePath);
         }
 
@@ -25,14 +25,6 @@ public class FilesInvertedIndexBuilder : IInvertedIndexBuilder
         {
             _invertedIndex.AddDocumentToKeyword(keyword, filePath);
         }
-    }
-
-    private List<Keyword> ExtractKeywords(string fileContent)
-    {
-        return Regex.Split(fileContent, @"[^\w']+")
-                    .Where(word => !string.IsNullOrWhiteSpace(word))
-                    .Select(word => new Keyword(word))
-                    .ToList();
     }
 
     public InvertedIndex Build()
