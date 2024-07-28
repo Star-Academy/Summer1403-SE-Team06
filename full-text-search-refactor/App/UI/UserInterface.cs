@@ -1,4 +1,5 @@
 ﻿using Mohaymen.FullTextSearch.App.Utilities;
+using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
 using Mohaymen.FullTextSearch.DocumentManagement.Models;
 using Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService;
 
@@ -6,7 +7,7 @@ namespace Mohaymen.FullTextSearch.App.UI;
 
 public static class UserInterface
 {
-    public static void StartProgramLoop(InvertedIndex invertedIndex)
+    public static void StartProgramLoop(IInvertedIndex invertedIndex)
     {
         var searcher = new InvertedIndexSearcher(invertedIndex);
 

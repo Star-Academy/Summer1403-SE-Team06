@@ -3,7 +3,7 @@ using Mohaymen.FullTextSearch.DocumentManagement.Models;
 
 namespace Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService;
 
-public class InvertedIndexSearcher(InvertedIndex invertedIndex) : ISearcher<string>
+public class InvertedIndexSearcher(IInvertedIndex invertedIndex) : ISearcher<string>
 {
     public ICollection<string> Search(SearchQuery query)
     {

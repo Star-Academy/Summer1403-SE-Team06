@@ -27,7 +27,7 @@ public class FilesInvertedIndexBuilder : IInvertedIndexBuilder
         }
     }
 
-    public InvertedIndex Build()
+    public IInvertedIndex Build()
     {
         return _invertedIndex;
     }

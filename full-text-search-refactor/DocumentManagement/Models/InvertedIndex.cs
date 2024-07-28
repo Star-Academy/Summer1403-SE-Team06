@@ -1,6 +1,8 @@
+using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
+
 namespace Mohaymen.FullTextSearch.DocumentManagement.Models;
 
-public class InvertedIndex
+public class InvertedIndex : IInvertedIndex
 {
     private readonly Dictionary<Keyword, HashSet<string>> _invertedIndexMap = [];
     public HashSet<string> AllDocuments { get; } = [];

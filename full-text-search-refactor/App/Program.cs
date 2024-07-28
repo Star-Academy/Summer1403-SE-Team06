@@ -4,6 +4,7 @@ using Mohaymen.FullTextSearch.DocumentManagement.Models;
 using Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService;
 using Mohaymen.FullTextSearch.App.Services;
 using Mohaymen.FullTextSearch.App.UI;
+using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
 
 namespace Mohaymen.FullTextSearch.App;
 
@@ -22,11 +23,11 @@ internal static class Program
             return;
         }
 
-        InvertedIndex invertedIndex = IndexFiles(fileCollection);
+        IInvertedIndex invertedIndex = IndexFiles(fileCollection);
         UserInterface.StartProgramLoop(invertedIndex);
     }
     
-    private static InvertedIndex IndexFiles(FileCollection fileCollection)
+    private static IInvertedIndex IndexFiles(FileCollection fileCollection)
     {
         Logging.Logger.LogInformation("Processing files...");
         var invertedIndexBuilder = new FilesInvertedIndexBuilder();
