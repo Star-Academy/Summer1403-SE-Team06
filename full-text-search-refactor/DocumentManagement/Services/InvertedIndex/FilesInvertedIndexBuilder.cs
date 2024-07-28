@@ -19,7 +19,7 @@ public class FilesInvertedIndexBuilder : IInvertedIndexBuilder
         return this;
     }
 
-    public void UpdateInvertedIndexMap(List<Keyword> keywords, string filePath)
+    private void UpdateInvertedIndexMap(List<Keyword> keywords, string filePath)
     {
         foreach (var keyword in keywords)
         {
@@ -27,7 +27,7 @@ public class FilesInvertedIndexBuilder : IInvertedIndexBuilder
         }
     }
 
-    public List<Keyword> ExtractKeywords(string fileContent)
+    private List<Keyword> ExtractKeywords(string fileContent)
     {
         return Regex.Split(fileContent, @"[^\w']+")
                     .Where(word => !string.IsNullOrWhiteSpace(word))

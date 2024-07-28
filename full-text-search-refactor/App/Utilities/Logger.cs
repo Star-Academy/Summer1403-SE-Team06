@@ -2,11 +2,11 @@ using Microsoft.Extensions.Logging;
 
 namespace Mohaymen.FullTextSearch.App.Utilities;
 
-public class Logging
+public static class Logging
 {
     public static ILogger Logger{get; private set;} = InitializeLogger();
 
-    public static ILogger InitializeLogger()
+    private static ILogger InitializeLogger()
     {
         using var loggerFactory = LoggerFactory.Create(builder =>
         {

@@ -2,7 +2,7 @@ using Mohaymen.FullTextSearch.DocumentManagement.Models;
 
 namespace Mohaymen.FullTextSearch.App.Utilities;
 
-public class Parser
+public static class Parser
 {
     public static SearchQuery ParseInputToSearchQuery(string input)
     {

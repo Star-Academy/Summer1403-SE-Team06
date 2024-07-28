@@ -7,7 +7,7 @@ using Mohaymen.FullTextSearch.App.Utilities;
 
 namespace Mohaymen.FullTextSearch.App.Services;
 
-public class FileLoader
+public static class FileLoader
 {
     private static readonly ResourceManager ResourceManager =
         new("full_text_search.assets.Resources", Assembly.GetExecutingAssembly());
@@ -17,11 +17,10 @@ public class FileLoader
     public static FileCollection LoadFiles()
     {
         var fileReader = new FileReader();
-
-        FileCollection fileCollection;
+        
         try
         {
-            fileCollection = fileReader.ReadAllFiles(FolderPath);
+            var fileCollection = fileReader.ReadAllFiles(FolderPath);
             return fileCollection;
         }
         catch (DirectoryNotFoundException exception)
