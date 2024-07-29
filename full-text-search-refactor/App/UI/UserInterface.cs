@@ -8,9 +8,9 @@ namespace Mohaymen.FullTextSearch.App.UI;
 public class UserInterface
 {
     private ISearcher<string> _searcher;
-    private IParser _parser;
+    private IInputParser _parser;
 
-    public UserInterface(ISearcher<string> searcher, IParser parser)
+    public UserInterface(ISearcher<string> searcher, IInputParser parser)
     {
         _searcher = searcher;
         _parser = parser;
@@ -34,7 +34,7 @@ public class UserInterface
 
     private ICollection<string> GetContainingFiles(string input)
     {
-        var searchQuery = _parser.ParseInputToSearchQuery(input);
+        var searchQuery = _parser.ParseToSearchQuery(input);
 
         ICollection<string> containingFiles = _searcher.Search(searchQuery);
         return containingFiles;

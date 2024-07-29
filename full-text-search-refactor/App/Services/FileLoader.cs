@@ -29,10 +29,5 @@ public class FileLoader
             Logging.Logger.LogError(exception, "Wrong Folder Path: {path}", documentsPath);
             throw;
         }
-        catch (Exception exception)
-        {
-            Logging.Logger.LogError(exception, "An error occurred while reading files.");
-            throw;
-        }
     }
 }

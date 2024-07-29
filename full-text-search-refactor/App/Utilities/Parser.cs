@@ -3,9 +3,9 @@ using Mohaymen.FullTextSearch.DocumentManagement.Models;
 
 namespace Mohaymen.FullTextSearch.App.Utilities;
 
-public class Parser : IParser
+public class Parser : IInputParser
 {
-    public SearchQuery ParseInputToSearchQuery(string input)
+    public SearchQuery ParseToSearchQuery(string input)
     {
         var mandatoryWords = new List<Keyword>();
         var optionalWords = new List<Keyword>();

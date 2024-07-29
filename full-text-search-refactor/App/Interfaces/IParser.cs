@@ -2,7 +2,7 @@
 
 namespace Mohaymen.FullTextSearch.App.Interfaces;
 
-public interface IParser
+public interface IInputParser
 {
-    SearchQuery ParseInputToSearchQuery(string input);
+    SearchQuery ParseToSearchQuery(string input);
 }
