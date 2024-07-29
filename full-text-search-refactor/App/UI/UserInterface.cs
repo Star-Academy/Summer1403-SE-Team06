@@ -38,9 +38,9 @@ public class UserInterface
 
     private ICollection<string> GetContainingFiles(string input)
     {
-        var searchQuery = _parser.ParseToSearchQuery(input);
+        var searchQueries = _parser.ParseToSearchQuery(input);
 
-        ICollection<string> containingFiles = _searcher.Search(searchQuery);
+        ICollection<string> containingFiles = _searcher.Search(searchQueries);
         return containingFiles;
     }
 

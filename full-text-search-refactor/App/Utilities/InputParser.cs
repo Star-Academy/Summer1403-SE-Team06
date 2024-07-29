@@ -1,11 +1,12 @@
 using Mohaymen.FullTextSearch.App.Interfaces;
 using Mohaymen.FullTextSearch.DocumentManagement.Models;
+using Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService.SearchStrategies;
 
 namespace Mohaymen.FullTextSearch.App.Utilities;
 
-public class Parser : IInputParser
+public class InputParser : IInputParser
 {
-    public SearchQuery ParseToSearchQuery(string input)
+    public List<SearchQuery> ParseToSearchQuery(string input)
     {
         var mandatoryWords = new List<Keyword>();
         var optionalWords = new List<Keyword>();
@@ -20,6 +21,10 @@ public class Parser : IInputParser
             else
                 mandatoryWords.Add(new Keyword(word));
 
-        return new SearchQuery(mandatoryWords, optionalWords, excludedWords);
+        return [
+            new SearchQuery(new MandatorySearchStrategy(), mandatoryWords),
+            new SearchQuery(new OptionalSearchStrategy(), optionalWords),
+            new SearchQuery(new ExcludedSearchStrategy(), excludedWords)
+        ];
     }
 }

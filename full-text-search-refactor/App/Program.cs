@@ -19,7 +19,7 @@ internal static class Program
         var fileCollection = fileLoader.LoadFiles(documentsPath);
         var invertedIndex = IndexFiles(fileCollection);
         var invertedIndexSearcher = new InvertedIndexSearcher(invertedIndex);
-        var parser = new Parser();
+        var parser = new InputParser();
         var userInterface = new UserInterface(invertedIndexSearcher, parser);
         userInterface.StartProgramLoop();
     }

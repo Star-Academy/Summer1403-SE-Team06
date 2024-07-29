@@ -1,3 +1,5 @@
-﻿namespace Mohaymen.FullTextSearch.DocumentManagement.Models;
+﻿using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
 
-public record SearchQuery(List<Keyword> Mandatories, List<Keyword> Optionals, List<Keyword> Excludeds);
+namespace Mohaymen.FullTextSearch.DocumentManagement.Models;
+
+public record SearchQuery(ISearchStrategy SearchStrategy, List<Keyword> Keywords);
