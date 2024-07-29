@@ -15,20 +15,13 @@ internal static class Program
     public static void Main()
     {
         var documentsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Resources.DocumentsPath);
-        try
-        {
-            var fileLoader = new FileLoader(new FileReader());
-            var fileCollection = fileLoader.LoadFiles(documentsPath);
-            var invertedIndex = IndexFiles(fileCollection);
-            var invertedIndexSearcher = new InvertedIndexSearcher(invertedIndex);
-            var parser = new Parser();
-            var userInterface = new UserInterface(invertedIndexSearcher, parser);
-            userInterface.StartProgramLoop();
-        }
-        catch (Exception exception)
-        {
-            Console.WriteLine($"An unexpected error occurred: {exception.Message}");
-        }
+        var fileLoader = new FileLoader(new FileReader());
+        var fileCollection = fileLoader.LoadFiles(documentsPath);
+        var invertedIndex = IndexFiles(fileCollection);
+        var invertedIndexSearcher = new InvertedIndexSearcher(invertedIndex);
+        var parser = new Parser();
+        var userInterface = new UserInterface(invertedIndexSearcher, parser);
+        userInterface.StartProgramLoop();
     }
     
     private static IInvertedIndex IndexFiles(FileCollection fileCollection)
