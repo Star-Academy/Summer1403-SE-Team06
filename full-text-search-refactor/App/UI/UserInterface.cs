@@ -9,9 +9,12 @@ public class UserInterface
 {
     private ISearcher<string> _searcher;
     private IInputParser _parser;
+    private const string QuitCommand = "!q";
 
     public UserInterface(ISearcher<string> searcher, IInputParser parser)
     {
+        ArgumentNullException.ThrowIfNull(searcher);
+        ArgumentNullException.ThrowIfNull(parser);
         _searcher = searcher;
         _parser = parser;
     }
@@ -23,7 +26,8 @@ public class UserInterface
         {
             var input = GetInput();
 
-            if (input == "!q")
+            
+            if (input == QuitCommand)
                 break;
 
             var containingFiles = GetContainingFiles(input);
