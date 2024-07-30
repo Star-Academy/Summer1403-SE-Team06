@@ -8,13 +8,6 @@ namespace Mohaymen.FullTextSearch.App.Services;
 
 public class FileLoader
 {
-    private IFileReader _fileReader;
-
-    public FileLoader(IFileReader fileReader)
-    {
-        _fileReader = fileReader;
-    }
-    
     public FileCollection LoadFiles(string documentsPath)
     {
         var fileReader = new FileReader();

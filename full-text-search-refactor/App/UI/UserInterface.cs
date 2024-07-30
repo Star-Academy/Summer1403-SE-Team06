@@ -7,8 +7,8 @@ namespace Mohaymen.FullTextSearch.App.UI;
 
 public class UserInterface
 {
-    private ISearcher<string> _searcher;
-    private IInputParser _parser;
+    private readonly ISearcher<string> _searcher;
+    private readonly IInputParser _parser;
     private const string QuitCommand = "!q";
 
     public UserInterface(ISearcher<string> searcher, IInputParser parser)
@@ -21,11 +21,9 @@ public class UserInterface
     
     public void StartProgramLoop()
     {
-
         while (true)
         {
             var input = GetInput();
-
             
             if (input == QuitCommand)
                 break;

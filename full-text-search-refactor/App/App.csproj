@@ -5,7 +5,7 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <RootNamespace>full_text_search</RootNamespace>
+        <RootNamespace>Mohaymen.FullTextSearch.App</RootNamespace>
         <OutputType>Exe</OutputType>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
