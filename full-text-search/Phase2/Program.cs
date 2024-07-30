@@ -70,7 +70,7 @@ class Program
             return;
         };
 
-        var searchQuery = ParseInputToSearchQuery(input);
+        var searchQuery = ParseToSearchQuery(input);
             
         HashSet<string> containingFiles = AdvancedInvertedIndex.AdvancedSearch(searchQuery);
         if(containingFiles.Count == 0)
@@ -89,7 +89,7 @@ class Program
         Console.WriteLine("----------------------");
     }
 
-    private static SearchQuery ParseInputToSearchQuery(string input)
+    private static SearchQuery ParseToSearchQuery(string input)
     {
         var mandatoryWords = new List<string>();
         var optionalWords = new List<string>();
