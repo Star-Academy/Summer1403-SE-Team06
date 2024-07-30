@@ -15,7 +15,7 @@ internal static class Program
     public static void Main()
     {
         var documentsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Resources.DocumentsPath);
-        var fileLoader = new FileLoader();
+        var fileLoader = new FileLoader(new FileReader());
         var fileCollection = fileLoader.LoadFiles(documentsPath);
         var invertedIndex = IndexFiles(fileCollection);
         var invertedIndexSearcher = new InvertedIndexSearcher(invertedIndex);

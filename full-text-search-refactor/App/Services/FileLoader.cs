@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Logging;
 using Mohaymen.FullTextSearch.DocumentManagement.Models;
-using Mohaymen.FullTextSearch.DocumentManagement.Services.FilesService;
 using Mohaymen.FullTextSearch.App.Utilities;
 using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
 
@@ -8,13 +7,18 @@ namespace Mohaymen.FullTextSearch.App.Services;
 
 public class FileLoader
 {
+    private IFileReader _fileReader;
+
+    public FileLoader(IFileReader fileReader)
+    {
+        _fileReader = fileReader;
+    }
+    
     public FileCollection LoadFiles(string documentsPath)
     {
-        var fileReader = new FileReader();
-        
         try
         {
-            var fileCollection = fileReader.ReadAllFiles(documentsPath);
+            var fileCollection = _fileReader.ReadAllFiles(documentsPath);
             return fileCollection;
         }
         catch (DirectoryNotFoundException exception)

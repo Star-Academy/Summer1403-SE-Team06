@@ -4,14 +4,14 @@ namespace Mohaymen.FullTextSearch.App.Utilities;
 
 public static class Logging
 {
-    public static ILogger Logger{get; private set;} = InitializeLogger();
-
-    private static ILogger InitializeLogger()
+    public static ILogger Logger{get; private set;}
+    
+    static Logging()
     {
         using var loggerFactory = LoggerFactory.Create(builder =>
         {
             builder.AddConsole();
         });
-        return loggerFactory.CreateLogger("Program");
+        Logger = loggerFactory.CreateLogger("Program");
     }
 }
