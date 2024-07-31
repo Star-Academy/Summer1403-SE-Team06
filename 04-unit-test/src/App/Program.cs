@@ -7,6 +7,7 @@ using Mohaymen.FullTextSearch.App.UI;
 using Mohaymen.FullTextSearch.Assets;
 using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
 using Mohaymen.FullTextSearch.DocumentManagement.Services.FilesService;
+using Mohaymen.FullTextSearch.DocumentManagement.Utilities;
 
 namespace Mohaymen.FullTextSearch.App;
 
@@ -27,7 +28,8 @@ internal static class Program
     private static IInvertedIndex IndexFiles(FileCollection fileCollection)
     {
         Logging.Logger.LogInformation("Processing files...");
-        var invertedIndexBuilder = new FilesInvertedIndexBuilder();
+        var tokenizer = new Tokenizer();
+        var invertedIndexBuilder = new FilesInvertedIndexBuilder(tokenizer);
         var invertedIndex = invertedIndexBuilder.IndexFilesWords(fileCollection).Build();
         Logging.Logger.LogInformation("{fileCount} files loaded.", fileCollection.FilesCount());
         return invertedIndex;

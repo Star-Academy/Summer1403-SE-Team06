@@ -7,12 +7,18 @@ namespace Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexServi
 public class FilesInvertedIndexBuilder : IInvertedIndexBuilder
 {
     private readonly InvertedIndex _invertedIndex = new();
+    private readonly ITokenizer _tokenizer;
+
+    public FilesInvertedIndexBuilder(ITokenizer tokenizer)
+    {
+        _tokenizer = tokenizer;
+    }
 
     public FilesInvertedIndexBuilder IndexFilesWords(FileCollection fileCollection)
     {
         foreach (var filePath in fileCollection.GetFilesPath())
         {
-            var keywords = Tokenizer.ExtractKeywords(fileCollection.GetFileContent(filePath));
+            var keywords = _tokenizer.ExtractKeywords(fileCollection.GetFileContent(filePath));
             UpdateInvertedIndexMap(keywords, filePath);
         }
 

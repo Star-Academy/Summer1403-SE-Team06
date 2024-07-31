@@ -40,7 +40,7 @@ public class UserInterface
         return _searcher.Search(searchQueries);
     }
 
-    private static void DisplayResult(ICollection<string> containingFiles)
+    private void DisplayResult(ICollection<string> containingFiles)
     {
         if (containingFiles.Count == 0)
         {
@@ -60,7 +60,7 @@ public class UserInterface
         Console.WriteLine("----------------------");
     }
 
-    private static string GetInput()
+    private string GetInput()
     {
         Console.Write("Enter your statement (Enter !q to exit): ");
         var input = Console.ReadLine()?.Trim() ?? "";

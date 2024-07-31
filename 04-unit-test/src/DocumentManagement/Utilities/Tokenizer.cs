@@ -1,13 +1,14 @@
 ﻿using System.Text.RegularExpressions;
+using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
 using Mohaymen.FullTextSearch.DocumentManagement.Models;
 
 namespace Mohaymen.FullTextSearch.DocumentManagement.Utilities;
 
-public static class Tokenizer
+public class Tokenizer : ITokenizer
 {
-    private static readonly string SplitRegex = @"[^\w']+";
+    private readonly string SplitRegex = @"[^\w']+";
     
-    public static List<Keyword> ExtractKeywords(string text)
+    public List<Keyword> ExtractKeywords(string text)
     {
         return Regex.Split(text, SplitRegex)
             .Where(word => !string.IsNullOrWhiteSpace(word))
