@@ -6,12 +6,12 @@ using NSubstitute;
 
 namespace Mohaymen.FullTextSearch.Test.DocumentManagement.Services.InvertedIndex;
 
-public class InvertedIndexSearcherTests
+public class InvertedIndexSearcherTest
 {
     private IInvertedIndex _invertedIndex;
     private InvertedIndexSearcher _searcher;
 
-    public InvertedIndexSearcherTests()
+    public InvertedIndexSearcherTest()
     {
         _invertedIndex = CreateTestIndex();
         _searcher = new InvertedIndexSearcher(_invertedIndex);

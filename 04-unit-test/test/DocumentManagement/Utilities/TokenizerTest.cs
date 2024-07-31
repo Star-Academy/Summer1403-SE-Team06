@@ -3,7 +3,7 @@ using Mohaymen.FullTextSearch.DocumentManagement.Utilities;
 
 namespace Mohaymen.FullTextSearch.Test.DocumentManagement.Utilities;
 
-public class TokenizersTests
+public class TokenizersTest
 {
     public static IEnumerable<object[]> GetTestData()
     {
