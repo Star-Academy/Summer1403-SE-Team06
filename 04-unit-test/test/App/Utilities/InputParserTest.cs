@@ -1,7 +1,8 @@
-﻿using Mohaymen.FullTextSearch.DocumentManagement.Models;
+﻿using Mohaymen.FullTextSearch.App.Utilities;
+using Mohaymen.FullTextSearch.DocumentManagement.Models;
 using Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService.SearchStrategies;
 
-namespace Mohaymen.FullTextSearch.App.Utilities.Test;
+namespace Mohaymen.FullTextSearch.Test.App.Utilities;
 
 public class InputParserTest
 {

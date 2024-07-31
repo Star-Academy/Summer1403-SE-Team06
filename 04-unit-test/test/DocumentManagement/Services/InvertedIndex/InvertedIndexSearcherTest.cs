@@ -4,7 +4,7 @@ using Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService;
 using Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService.SearchStrategies;
 using NSubstitute;
 
-namespace Mohaymen.FullTextSearch.DocumentManagement.Test;
+namespace Mohaymen.FullTextSearch.Test.DocumentManagement.Services.InvertedIndex;
 
 public class InvertedIndexSearcherTests
 {

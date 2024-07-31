@@ -1,7 +1,7 @@
 ﻿using Mohaymen.FullTextSearch.DocumentManagement.Models;
 using Mohaymen.FullTextSearch.DocumentManagement.Utilities;
 
-namespace Mohaymen.FullTextSearch.DocumentManagement.Test.DocumentManagement.Utilities;
+namespace Mohaymen.FullTextSearch.Test.DocumentManagement.Utilities;
 
 public class TokenizersTests
 {

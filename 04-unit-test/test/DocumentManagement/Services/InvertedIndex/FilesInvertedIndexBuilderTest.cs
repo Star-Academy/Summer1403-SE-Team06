@@ -3,7 +3,7 @@ using Mohaymen.FullTextSearch.DocumentManagement.Models;
 using Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService;
 using NSubstitute;
 
-namespace Mohaymen.FullTextSearch.DocumentManagement.Test;
+namespace Mohaymen.FullTextSearch.Test.DocumentManagement.Services.InvertedIndex;
 
 public class FilesInvertedIndexBuilderTest
 {

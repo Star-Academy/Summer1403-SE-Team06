@@ -1,6 +1,6 @@
 ﻿using Mohaymen.FullTextSearch.DocumentManagement.Services.FilesService;
 
-namespace Mohaymen.FullTextSearch.DocumentManagement.Services.Files.Test;
+namespace Mohaymen.FullTextSearch.Test.DocumentManagement.Services.Files;
 
 public class FileReaderTest : IDisposable
 {
