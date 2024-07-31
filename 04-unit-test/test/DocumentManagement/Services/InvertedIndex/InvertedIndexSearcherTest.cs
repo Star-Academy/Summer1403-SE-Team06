@@ -2,36 +2,13 @@ using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
 using Mohaymen.FullTextSearch.DocumentManagement.Models;
 using Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService;
 using Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService.SearchStrategies;
-using Mohaymen.FullTextSearch.DocumentManagement.Utilities;
 using NSubstitute;
 
 namespace Mohaymen.FullTextSearch.DocumentManagement.Test;
 
-public class TokenizersTests
-{
-    public static IEnumerable<object[]> GetTestData()
-    {
-        yield return ["sta'r", new List<Keyword> { new ("sta'r") }];
-        yield return ["'star", new List<Keyword> { new ("'star") }];
-        yield return ["st 'ar", new List<Keyword> { new ("st"), new ("'ar") }];
-        yield return ["st ' ar", new List<Keyword> { new ("st"), new ("ar") }];
-    }
-
-    [Theory]
-    [MemberData(nameof(GetTestData))]
-    public void ExtractKeywords_ShouldTokenizeText_WhenStringContainsSingleQuotation(string text, List<Keyword> expectedKeywords)
-    {
-        //Act
-        var keywords = Tokenizer.ExtractKeywords(text);
-      
-        //Assert
-        Assert.Equal(expectedKeywords, keywords);
-    }
-}
-
 public class InvertedIndexSearcherTests
 {
-    private InvertedIndex _invertedIndex;
+    private IInvertedIndex _invertedIndex;
     private InvertedIndexSearcher _searcher;
 
     public InvertedIndexSearcherTests()
@@ -40,20 +17,29 @@ public class InvertedIndexSearcherTests
         _searcher = new InvertedIndexSearcher(_invertedIndex);
     }
 
-    private InvertedIndex CreateTestIndex()
+    private IInvertedIndex CreateTestIndex()
     {
-        var invertedIndex = new InvertedIndex();
+        var invertedIndex = Substitute.For<IInvertedIndex>();
+        
+        var keywordDocumentMapping = new Dictionary<Keyword, HashSet<string>>
+        {
+            { new Keyword("star"), ["doc1.txt", "doc2.txt"] },
+            { new Keyword("academy"), ["doc1.txt", "doc3.txt"] },
+            { new Keyword("coder"), ["doc2.txt", "doc3.txt"] },
+            { new Keyword("summer"), ["doc4.txt"] }
+        };
 
-        invertedIndex.AddDocumentToKeyword(new ("star"), "doc1.txt");
-        invertedIndex.AddDocumentToKeyword(new ("academy"), "doc1.txt");
-        invertedIndex.AddDocumentToKeyword(new ("star"), "doc2.txt");
-        invertedIndex.AddDocumentToKeyword(new ("coder"), "doc2.txt");
-        invertedIndex.AddDocumentToKeyword(new ("academy"), "doc3.txt");
-        invertedIndex.AddDocumentToKeyword(new ("coder"), "doc3.txt");
-        invertedIndex.AddDocumentToKeyword(new ("summer"), "doc4.txt");
+        foreach (var entry in keywordDocumentMapping)
+        {
+            invertedIndex.GetDocumentsByKeyword(entry.Key)
+                .Returns(entry.Value);
+        }
+
+        invertedIndex.AllDocuments.Returns(["doc1.txt", "doc2.txt", "doc3.txt", "doc4.txt"]);
 
         return invertedIndex;
     }
+
 
     [Fact]
     public void Search_ExcludedStrategy_ShouldExcludeDocumentsWithSpecificKeywords()

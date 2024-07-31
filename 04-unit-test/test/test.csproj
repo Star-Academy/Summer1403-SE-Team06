@@ -26,4 +26,8 @@
       <ProjectReference Include="..\src\App\App.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="DocumentManagement\" />
+    </ItemGroup>
+
 </Project>
