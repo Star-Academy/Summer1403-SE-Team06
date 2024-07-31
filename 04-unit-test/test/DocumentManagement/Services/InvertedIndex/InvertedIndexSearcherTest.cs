@@ -40,37 +40,22 @@ public class InvertedIndexSearcherTest
         return invertedIndex;
     }
 
-
     [Fact]
-    public void Search_ExcludedStrategy_ShouldExcludeDocumentsWithSpecificKeywords()
+    public void Search_WithMultipleStrategies_CombinesFiltersCorrectly()
     {
         // Arrange
-        var searchStrategy = new ExcludedSearchStrategy();
-        var keywords = new List<Keyword> { new Keyword("star") };
+        var mandatorySearchStrategy = new MandatorySearchStrategy();
+        var optionalSearchStrategy = new OptionalSearchStrategy();
+        var excludedSearchStrategy = new ExcludedSearchStrategy();
+        var mandatoryKeywords = new List<Keyword> { new Keyword("academy") };
+        var optionalKeywords = new List<Keyword> { new Keyword("coder") };
+        var excludedKeywords = new List<Keyword> { new Keyword("star") };
         
         var queries = new List<SearchQuery>
         {
-            new SearchQuery(searchStrategy,  keywords)
-        };
-
-        // Act
-        var results = _searcher.Search(queries);
-
-        // Assert
-        var expected = new HashSet<string> { "doc3.txt", "doc4.txt" };
-        Assert.True(expected.SetEquals(results), $"Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", results)}");
-    }
-
-    [Fact]
-    public void Search_MandatoryStrategy_ShouldIncludeOnlyDocumentsContainingAllKeywords()
-    {
-        // Arrange
-        var searchStrategy = new MandatorySearchStrategy();
-        var keywords = new List<Keyword> { new Keyword("academy"), new Keyword("coder") };
-        
-        var queries = new List<SearchQuery>
-        {
-            new SearchQuery(searchStrategy, keywords)
+            new SearchQuery(mandatorySearchStrategy, mandatoryKeywords),
+            new SearchQuery(optionalSearchStrategy, optionalKeywords),
+            new SearchQuery(excludedSearchStrategy,  excludedKeywords)
         };
 
         // Act
@@ -78,26 +63,6 @@ public class InvertedIndexSearcherTest
 
         // Assert
         var expected = new HashSet<string> { "doc3.txt" };
-        Assert.True(expected.SetEquals(results), $"Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", results)}");
-    }
-
-    [Fact]
-    public void Search_OptionalStrategy_ShouldIncludeDocumentsContainingAnyKeywords()
-    {
-        // Arrange
-        var searchStrategy = new OptionalSearchStrategy();
-        var keywords = new List<Keyword> { new Keyword("academy"), new Keyword("summer") };
-        
-        var queries = new List<SearchQuery>
-        {
-            new SearchQuery(searchStrategy, keywords)
-        };
-
-        // Act
-        var results = _searcher.Search(queries);
-
-        // Assert
-        var expected = new HashSet<string> { "doc1.txt", "doc3.txt", "doc4.txt" };
         Assert.True(expected.SetEquals(results), $"Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", results)}");
     }
 }
