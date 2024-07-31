@@ -6,40 +6,23 @@ public class FileReaderTest : IDisposable
 {
     private readonly FileReader _fileReader;
     private readonly string _testDirectory;
-    private readonly string _emptyFolderPath;
 
     public FileReaderTest()
     {
-        _testDirectory = CreateTestDirectoryWithFiles();
-        _emptyFolderPath = CreateEmptyDirectory();
         _fileReader = new FileReader();
+        _testDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+        Directory.CreateDirectory(_testDirectory);
     }
-    
-    private string CreateTestDirectoryWithFiles()
-    {
-        var testDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-        Directory.CreateDirectory(testDirectory);
-
-        var filePath1 = Path.Combine(testDirectory, "file1.txt");
-        var filePath2 = Path.Combine(testDirectory, "file2.txt");
-        File.WriteAllText(filePath1, "Content of file1");
-        File.WriteAllText(filePath2, "Content of file2");
-
-        return testDirectory;
-    }
-
-    private string CreateEmptyDirectory()
-    {
-        var emptyFolderPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-        Directory.CreateDirectory(emptyFolderPath);
-
-        return emptyFolderPath;
-    }
-
 
     [Fact]
     public void ReadAllFiles_ShouldReadAllFilesInADirectory()
     {
+        //Arrange
+        var filePath1 = Path.Combine(_testDirectory, "file1.txt");
+        var filePath2 = Path.Combine(_testDirectory, "file2.txt");
+        File.WriteAllText(filePath1, "Content of file1");
+        File.WriteAllText(filePath2, "Content of file2");
+        
         // Act
         var result = _fileReader.ReadAllFiles(_testDirectory);
 
@@ -55,7 +38,7 @@ public class FileReaderTest : IDisposable
     public void ReadAllFiles_ShouldHandleEmptyDirectory()
     {
         // Act
-        var result = _fileReader.ReadAllFiles(_emptyFolderPath);
+        var result = _fileReader.ReadAllFiles(_testDirectory);
 
         // Assert
         Assert.Equal(0, result.FilesCount());
