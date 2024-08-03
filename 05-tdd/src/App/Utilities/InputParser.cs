@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Mohaymen.FullTextSearch.App.Interfaces;
 using Mohaymen.FullTextSearch.DocumentManagement.Models;
 using Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService.SearchStrategies;
@@ -12,14 +13,21 @@ public class InputParser : IInputParser
         var optionalWords = new List<Keyword>();
         var excludedWords = new List<Keyword>();
 
-        var words = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        foreach (var word in words)
+        var regex = new Regex(@"[+-]?\b\w+\b|[+-]?""[^""]+""");
+        
+        var matches = regex.Matches(input);
+
+        foreach (Match match in matches)
+        {
+            var word = match.Value;
+
             if (word.StartsWith('+'))
-                optionalWords.Add(new Keyword(word.Substring(1)));
+                optionalWords.Add(new Keyword(word.Substring(1).Trim('"')));
             else if (word.StartsWith('-'))
-                excludedWords.Add(new Keyword(word.Substring(1)));
+                excludedWords.Add(new Keyword(word.Substring(1).Trim('"')));
             else
-                mandatoryWords.Add(new Keyword(word));
+                mandatoryWords.Add(new Keyword(word.Trim('"')));
+        }
 
         return [
             new SearchQuery(new MandatorySearchStrategy(), mandatoryWords),
