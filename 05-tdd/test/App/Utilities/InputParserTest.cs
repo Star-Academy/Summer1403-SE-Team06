@@ -187,4 +187,27 @@ public class InputParserTest
         Assert.Empty(mandatories);
         Assert.Empty(optionals);
     }
+
+    [Fact]
+    public void ParseToSearchQuery_ShouldHandlePhrases()
+    {
+        // Arrange
+        var input = "+\"word1 word2\" -\"word3\" \"word4 word5 word6\"";
+        List<Keyword> expectedMandatories = [new Keyword("word4 word5 word6")];
+        List<Keyword> expectedOptionals = [new Keyword("word1 word2")];
+        List<Keyword> expectedExcludeds = [new Keyword("word3")];
+
+        // Assert
+        var queries = _inputParser.ParseToSearchQuery(input);
+        
+        // Assert
+        var mandatories = queries.Find(query => query.SearchStrategy is MandatorySearchStrategy)?.Keywords;
+        var optionals = queries.Find(query => query.SearchStrategy is OptionalSearchStrategy)?.Keywords;
+        var excludeds = queries.Find(query => query.SearchStrategy is ExcludedSearchStrategy)?.Keywords;
+        
+        Assert.Equal(expectedMandatories, mandatories);
+        Assert.Equal(expectedOptionals, optionals);
+        Assert.Equal(expectedExcludeds, excludeds);
+    }
+    
 }
