@@ -48,9 +48,20 @@ public class AdvancedInvertedIndex : IInvertedIndex
 
     private bool Equals(AdvancedInvertedIndex other)
     {
-        var areMapsEqual = _invertedIndexMap.Equals(other._invertedIndexMap);
-        var areDocumentsEqual = AllDocuments.Equals(other.AllDocuments);
-        return  areMapsEqual && areDocumentsEqual;
+        if (_invertedIndexMap.Count != other._invertedIndexMap.Count)
+            return false;
+
+        foreach (var kvp in _invertedIndexMap)
+        {
+            if (!other._invertedIndexMap.TryGetValue(kvp.Key, out var otherSet))
+                return false;
+
+            if (!kvp.Value.SetEquals(otherSet))
+                return false;
+        }
+
+        var areDocumentsEqual = AllDocuments.SetEquals(other.AllDocuments);
+        return areDocumentsEqual;
     }
 
     public override bool Equals(object? obj)
@@ -59,10 +70,5 @@ public class AdvancedInvertedIndex : IInvertedIndex
         if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != this.GetType()) return false;
         return Equals((AdvancedInvertedIndex)obj);
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(_invertedIndexMap, AllDocuments);
     }
 }

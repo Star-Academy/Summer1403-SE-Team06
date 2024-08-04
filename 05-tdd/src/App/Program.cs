@@ -29,8 +29,8 @@ internal static class Program
     {
         Logging.Logger.LogInformation("Processing files...");
         var tokenizer = new Tokenizer();
-        var invertedIndexBuilder = new FilesInvertedIndexBuilder(tokenizer);
-        var invertedIndex = invertedIndexBuilder.IndexFilesWords(fileCollection).Build();
+        var advancedInvertedIndexBuilder = new FilesAdvancedInvertedIndexBuilder(tokenizer);
+        var invertedIndex = advancedInvertedIndexBuilder.IndexFilesWords(fileCollection).Build();
         Logging.Logger.LogInformation("{fileCount} files loaded.", fileCollection.FilesCount());
         return invertedIndex;
     }
