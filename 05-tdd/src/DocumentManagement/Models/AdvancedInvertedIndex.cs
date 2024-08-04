@@ -45,4 +45,24 @@ public class AdvancedInvertedIndex : IInvertedIndex
 
         return keywordInfos.Select(keywordInfo => keywordInfo.Document).ToHashSet();
     }
+
+    private bool Equals(AdvancedInvertedIndex other)
+    {
+        var areMapsEqual = _invertedIndexMap.Equals(other._invertedIndexMap);
+        var areDocumentsEqual = AllDocuments.Equals(other.AllDocuments);
+        return  areMapsEqual && areDocumentsEqual;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((AdvancedInvertedIndex)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(_invertedIndexMap, AllDocuments);
+    }
 }
