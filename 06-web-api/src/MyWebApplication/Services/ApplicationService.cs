@@ -16,7 +16,6 @@ public class ApplicationService : IApplicationService
     {
         _logger = logger;
         var documentsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Resources.DocumentsPath);
-        Console.WriteLine(documentsPath);
         var fileCollection = fileReader.ReadAllFiles(documentsPath);
         _invertedIndexBuilder = invertedIndexBuilder;
         var invertedIndex = IndexFiles(fileCollection);

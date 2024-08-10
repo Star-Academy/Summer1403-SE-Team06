@@ -20,10 +20,10 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddScoped<IApplicationService, ApplicationService>();
-        builder.Services.AddScoped<IInvertedIndexBuilder, FilesAdvancedInvertedIndexBuilder>();
-        builder.Services.AddScoped<IFileReader, FileReader>();
-        builder.Services.AddScoped<ITokenizer, Tokenizer>();
+        builder.Services.AddSingleton<IApplicationService, ApplicationService>();
+        builder.Services.AddSingleton<IInvertedIndexBuilder, FilesAdvancedInvertedIndexBuilder>();
+        builder.Services.AddSingleton<IFileReader, FileReader>();
+        builder.Services.AddSingleton<ITokenizer, Tokenizer>();
 
         var app = builder.Build();
 
