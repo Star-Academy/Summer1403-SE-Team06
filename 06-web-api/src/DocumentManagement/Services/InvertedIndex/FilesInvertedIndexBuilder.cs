@@ -14,7 +14,7 @@ public class FilesInvertedIndexBuilder : IInvertedIndexBuilder
         _tokenizer = tokenizer;
     }
 
-    public FilesInvertedIndexBuilder IndexFilesWords(FileCollection fileCollection)
+    public IInvertedIndexBuilder IndexFilesWords(FileCollection fileCollection)
     {
         foreach (var filePath in fileCollection.GetFilesPath())
         {
