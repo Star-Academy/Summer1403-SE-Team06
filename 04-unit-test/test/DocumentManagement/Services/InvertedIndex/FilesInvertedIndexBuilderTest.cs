@@ -17,7 +17,7 @@ public class FilesInvertedIndexBuilderTest
     }
 
     [Fact]
-    public void IndexFilesWords_ValidFileCollection_ShouldIndexAllWords()
+    public void IndexFilesWords_ShouldIndexAllWords_WhenFileCollectionIsValid()
     {
         // Arrange
         var fileCollection = new FileCollection();

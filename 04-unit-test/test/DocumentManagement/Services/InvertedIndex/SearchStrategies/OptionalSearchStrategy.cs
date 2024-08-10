@@ -45,12 +45,13 @@ public class OptionalSearchStrategyTest
         // Arrange
         var documents = new HashSet<string>(_invertedIndex.AllDocuments);
         var keywords = new List<Keyword> { new Keyword("academy"), new Keyword("summer") };
+        var expected = new HashSet<string> { "doc1.txt", "doc3.txt", "doc4.txt" };
 
         // Act
         _searchStrategy.FilterDocuments(documents, keywords, _invertedIndex);
 
         // Assert
-        var expected = new HashSet<string> { "doc1.txt", "doc3.txt", "doc4.txt" };
-        Assert.True(expected.SetEquals(documents), $"Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", documents)}");
+        var assertFailMessage = $"Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", documents)}";
+        Assert.True(expected.SetEquals(documents), assertFailMessage);
     }
 }

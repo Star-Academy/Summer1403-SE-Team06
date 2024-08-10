@@ -45,12 +45,12 @@ public class ExcludedSearchStrategyTest
         // Arrange
         var documents = new HashSet<string>(_invertedIndex.AllDocuments);
         var keywords = new List<Keyword> { new Keyword("star") };
+        var expected = new HashSet<string> { "doc3.txt", "doc4.txt" };
 
         // Act
         _searchStrategy.FilterDocuments(documents, keywords, _invertedIndex);
 
         // Assert
-        var expected = new HashSet<string> { "doc3.txt", "doc4.txt" };
         Assert.True(expected.SetEquals(documents), $"Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", documents)}");
     }
 }

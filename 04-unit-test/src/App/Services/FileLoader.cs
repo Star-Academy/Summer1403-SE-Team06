@@ -7,10 +7,12 @@ namespace Mohaymen.FullTextSearch.App.Services;
 
 public class FileLoader
 {
-    private IFileReader _fileReader;
+    private readonly IFileReader _fileReader;
 
     public FileLoader(IFileReader fileReader)
     {
+        ArgumentNullException.ThrowIfNull(fileReader);
+        
         _fileReader = fileReader;
     }
     
