@@ -4,6 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>Mohaymen.FullTextSearch.MyWebApplication</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -12,8 +13,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\src\App\App.csproj" />
-      <ProjectReference Include="..\src\DocumentManagement\DocumentManagement.csproj" />
+      <ProjectReference Include="..\DocumentManagement\DocumentManagement.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="assets\Resources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
 </Project>

@@ -5,11 +5,9 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentManagement", "src\DocumentManagement\DocumentManagement.csproj", "{D471FD38-26BA-4DEF-96A2-982F235AEA01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App", "src\App\App.csproj", "{0735FD70-626C-4D88-94E3-4B410C5A41E9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{FD776EED-DBA5-4789-A1A7-FF97EF11FBD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWebApplication", "MyWebApplication\MyWebApplication.csproj", "{FD4AE171-A581-4FD2-899C-C1BB5EAFE641}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWebApplication", "src\MyWebApplication\MyWebApplication.csproj", "{FD4AE171-A581-4FD2-899C-C1BB5EAFE641}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +19,6 @@ Global
 		{D471FD38-26BA-4DEF-96A2-982F235AEA01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D471FD38-26BA-4DEF-96A2-982F235AEA01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D471FD38-26BA-4DEF-96A2-982F235AEA01}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0735FD70-626C-4D88-94E3-4B410C5A41E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0735FD70-626C-4D88-94E3-4B410C5A41E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0735FD70-626C-4D88-94E3-4B410C5A41E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0735FD70-626C-4D88-94E3-4B410C5A41E9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FD776EED-DBA5-4789-A1A7-FF97EF11FBD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FD776EED-DBA5-4789-A1A7-FF97EF11FBD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD776EED-DBA5-4789-A1A7-FF97EF11FBD3}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -1,24 +1,22 @@
-﻿using Microsoft.Extensions.Logging;
-using Mohaymen.FullTextSearch.App.Interfaces;
-using Mohaymen.FullTextSearch.App.Services;
-using Mohaymen.FullTextSearch.App.Utilities;
-using Mohaymen.FullTextSearch.Assets;
+﻿using Mohaymen.FullTextSearch.Assets;
 using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
 using Mohaymen.FullTextSearch.DocumentManagement.Models;
 using Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService;
 using Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService.SearchStrategies;
+using Mohaymen.FullTextSearch.MyWebApplication.Interfaces;
 
-namespace Mohaymen.FullTextSearch.App;
+namespace Mohaymen.FullTextSearch.MyWebApplication.Services;
 
 public class ApplicationService : IApplicationService
 {
     private readonly IInvertedIndexBuilder _invertedIndexBuilder;
     private readonly ISearcher<string> _invertedIndexSearcher;
-    public ApplicationService(IFileReader fileReader, IInvertedIndexBuilder invertedIndexBuilder)
+    private readonly ILogger<ApplicationService> _logger;
+    public ApplicationService(IFileReader fileReader, IInvertedIndexBuilder invertedIndexBuilder, ILogger<ApplicationService> logger)
     {
+        _logger = logger;
         var documentsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Resources.DocumentsPath);
-        var fileLoader = new FileLoader(fileReader);
-        var fileCollection = fileLoader.LoadFiles(documentsPath);
+        var fileCollection = fileReader.ReadAllFiles(documentsPath);
         _invertedIndexBuilder = invertedIndexBuilder;
         var invertedIndex = IndexFiles(fileCollection);
         _invertedIndexSearcher = new InvertedIndexSearcher(invertedIndex);
@@ -26,9 +24,9 @@ public class ApplicationService : IApplicationService
     
     private IInvertedIndex IndexFiles(FileCollection fileCollection)
     {
-        Logging<Program>.Logger.LogInformation("Processing files...");
+        _logger.LogInformation("Processing files...");
         var invertedIndex = _invertedIndexBuilder.IndexFilesWords(fileCollection).Build();
-        Logging<Program>.Logger.LogInformation("{fileCount} files loaded.", fileCollection.FilesCount());
+        _logger.LogInformation("{fileCount} files loaded.", fileCollection.FilesCount());
         return invertedIndex;
     }
 

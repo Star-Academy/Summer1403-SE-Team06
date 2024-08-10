@@ -1,4 +1,4 @@
-﻿namespace Mohaymen.FullTextSearch.App.Interfaces;
+﻿namespace Mohaymen.FullTextSearch.MyWebApplication.Interfaces;
 
 public interface IApplicationService
 {

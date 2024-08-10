@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Mohaymen.FullTextSearch.App;
-using Mohaymen.FullTextSearch.App.Interfaces;
-using Mohaymen.FullTextSearch.DocumentManagement.Models;
-using MyWebApplication.Helpers;
+using Mohaymen.FullTextSearch.MyWebApplication.Helpers;
+using Mohaymen.FullTextSearch.MyWebApplication.Interfaces;
 
-namespace MyWebApplication.Controllers;
+namespace Mohaymen.FullTextSearch.MyWebApplication.Controllers;
 
 [ApiController]
 [Route("[controller]")]

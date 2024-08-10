@@ -1,11 +1,11 @@
-using Mohaymen.FullTextSearch.App;
-using Mohaymen.FullTextSearch.App.Interfaces;
 using Mohaymen.FullTextSearch.DocumentManagement.Interfaces;
 using Mohaymen.FullTextSearch.DocumentManagement.Services.FilesService;
 using Mohaymen.FullTextSearch.DocumentManagement.Services.InvertedIndexService;
 using Mohaymen.FullTextSearch.DocumentManagement.Utilities;
+using Mohaymen.FullTextSearch.MyWebApplication.Interfaces;
+using Mohaymen.FullTextSearch.MyWebApplication.Services;
 
-namespace MyWebApplication;
+namespace Mohaymen.FullTextSearch.MyWebApplication;
 
 public class Program
 {

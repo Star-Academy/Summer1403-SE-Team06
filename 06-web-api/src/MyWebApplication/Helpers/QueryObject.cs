@@ -1,4 +1,4 @@
-﻿namespace MyWebApplication.Helpers;
+﻿namespace Mohaymen.FullTextSearch.MyWebApplication.Helpers;
 
 public class QueryObject
 {

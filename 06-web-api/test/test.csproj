@@ -23,7 +23,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\src\DocumentManagement\DocumentManagement.csproj" />
-      <ProjectReference Include="..\src\App\App.csproj" />
     </ItemGroup>
 
     <ItemGroup>
