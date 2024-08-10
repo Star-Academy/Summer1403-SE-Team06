@@ -4,13 +4,11 @@ using Mohaymen.FullTextSearch.DocumentManagement.Models;
 
 namespace Mohaymen.FullTextSearch.DocumentManagement.Utilities;
 
-public class Tokenizer : ITokenizer
+public class Tokenizer(string splitRegex = @"[^\w']+") : ITokenizer
 {
-    private readonly string SplitRegex = @"[^\w']+";
-    
     public List<Keyword> ExtractKeywords(string text)
     {
-        return Regex.Split(text, SplitRegex)
+        return Regex.Split(text, splitRegex)
             .Where(word => !string.IsNullOrWhiteSpace(word))
             .Select(word => new Keyword(word))
             .ToList();

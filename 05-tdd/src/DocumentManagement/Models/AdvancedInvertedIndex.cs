@@ -2,7 +2,7 @@
 
 namespace Mohaymen.FullTextSearch.DocumentManagement.Models;
 
-public class AdvancedInvertedIndex : IInvertedIndex
+public class AdvancedInvertedIndex : IInvertedIndex, IEquatable<AdvancedInvertedIndex>
 {
     private readonly Dictionary<Keyword, HashSet<KeywordInfo>> _invertedIndexMap = [];
     public HashSet<string> AllDocuments { get; } = [];
@@ -31,6 +31,14 @@ public class AdvancedInvertedIndex : IInvertedIndex
             return [];
         }
         
+        foreach (var phraseWord in phraseWords)
+        {
+            if (!_invertedIndexMap.ContainsKey(phraseWord))
+            {
+                return [];
+            }
+        }
+        
         var keywordInfos = new HashSet<KeywordInfo>(_invertedIndexMap[phraseWords[0]]);
         
         for (int i=1; i<phraseWords.Count; i++)
@@ -45,21 +53,24 @@ public class AdvancedInvertedIndex : IInvertedIndex
 
         return keywordInfos.Select(keywordInfo => keywordInfo.Document).ToHashSet();
     }
+    
 
-    private bool Equals(AdvancedInvertedIndex other)
+    public bool Equals(AdvancedInvertedIndex? other)
     {
+        if (other is null) return false;
+        
         if (_invertedIndexMap.Count != other._invertedIndexMap.Count)
             return false;
-
+    
         foreach (var kvp in _invertedIndexMap)
         {
             if (!other._invertedIndexMap.TryGetValue(kvp.Key, out var otherSet))
                 return false;
-
+    
             if (!kvp.Value.SetEquals(otherSet))
                 return false;
         }
-
+    
         var areDocumentsEqual = AllDocuments.SetEquals(other.AllDocuments);
         return areDocumentsEqual;
     }
@@ -70,5 +81,10 @@ public class AdvancedInvertedIndex : IInvertedIndex
         if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != this.GetType()) return false;
         return Equals((AdvancedInvertedIndex)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(_invertedIndexMap, AllDocuments);
     }
 }

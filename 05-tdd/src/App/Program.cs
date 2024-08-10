@@ -11,7 +11,7 @@ using Mohaymen.FullTextSearch.DocumentManagement.Utilities;
 
 namespace Mohaymen.FullTextSearch.App;
 
-internal static class Program
+internal class Program
 {
     public static void Main()
     {
@@ -27,11 +27,11 @@ internal static class Program
     
     private static IInvertedIndex IndexFiles(FileCollection fileCollection)
     {
-        Logging.Logger.LogInformation("Processing files...");
+        Logging<Program>.Logger.LogInformation("Processing files...");
         var tokenizer = new Tokenizer();
         var advancedInvertedIndexBuilder = new FilesAdvancedInvertedIndexBuilder(tokenizer);
         var invertedIndex = advancedInvertedIndexBuilder.IndexFilesWords(fileCollection).Build();
-        Logging.Logger.LogInformation("{fileCount} files loaded.", fileCollection.FilesCount());
+        Logging<Program>.Logger.LogInformation("{fileCount} files loaded.", fileCollection.FilesCount());
         return invertedIndex;
     }
 }   

@@ -23,7 +23,7 @@ public class FileLoader
         }
         catch (DirectoryNotFoundException exception)
         {
-            Logging.Logger.LogError(exception, "Wrong Folder Path: {path}", documentsPath);
+            Logging<FileLoader>.Logger.LogError(exception, "Wrong Folder Path: {path}", documentsPath);
             throw;
         }
     }

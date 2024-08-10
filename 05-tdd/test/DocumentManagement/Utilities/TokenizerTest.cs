@@ -15,7 +15,7 @@ public class TokenizersTests
 
     [Theory]
     [MemberData(nameof(GetTestData))]
-    public void ExtractKeywords_ShouldTokenizeText_WhenStringContainsSingleQuotation(string text, List<Keyword> expectedKeywords)
+    public void ExtractKeywords_ShouldTokenizeText_WhenStringContainsSingleQuotationAndSpace(string text, List<Keyword> expectedKeywords)
     {
         //Arrange
         var tokenizer = new Tokenizer();

@@ -7,13 +7,15 @@ namespace Mohaymen.FullTextSearch.App.Utilities;
 
 public class InputParser : IInputParser
 {
+    // SplitRegexPattern matches single words and phrases
+    private const string SplitRegexPattern = @"[+-]?\b\w+\b|[+-]?""[^""]+""";
     public List<SearchQuery> ParseToSearchQuery(string input)
     {
         var mandatoryWords = new List<Keyword>();
         var optionalWords = new List<Keyword>();
         var excludedWords = new List<Keyword>();
 
-        var regex = new Regex(@"[+-]?\b\w+\b|[+-]?""[^""]+""");
+        var regex = new Regex(SplitRegexPattern);
         
         var matches = regex.Matches(input);
 

@@ -2,9 +2,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Mohaymen.FullTextSearch.App.Utilities;
 
-public static class Logging
+public static class Logging<TCategoryName>
 {
-    public static ILogger Logger{get; private set;}
+    public static ILogger<TCategoryName> Logger{get; private set;}
     
     static Logging()
     {
@@ -12,6 +12,6 @@ public static class Logging
         {
             builder.AddConsole();
         });
-        Logger = loggerFactory.CreateLogger("Program");
+        Logger = loggerFactory.CreateLogger<TCategoryName>();
     }
 }
